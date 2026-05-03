@@ -8,10 +8,10 @@ export async function submitOnboarding(payload: {
   primary_language: string;
   default_formality: string;
   tone_summary: string;
+  settings?: Record<string, unknown>;
 }) {
   return apiFetch("/onboarding", {
     method: "POST",
     body: payload,
   });
 }
-

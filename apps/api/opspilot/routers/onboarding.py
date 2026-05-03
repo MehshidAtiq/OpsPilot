@@ -30,6 +30,7 @@ async def submit_onboarding(
     company.default_formality = payload.default_formality
     company.tone_profile = {"summary": payload.tone_summary}
     company.settings = payload.settings
+    user.locale = "de-DE" if payload.primary_language == "de" else "en-US"
     await write_audit_log(
         session,
         company_id=company.id,
@@ -42,4 +43,3 @@ async def submit_onboarding(
     await session.commit()
     await session.refresh(company)
     return CompanyResponse.model_validate(company)
-

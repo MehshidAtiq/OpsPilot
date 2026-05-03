@@ -44,9 +44,9 @@ German IT/consulting SMEs (5–50 people) lose hours every week to email triage,
 
 ## Status
 
-Phase 2 — backend and database foundation in progress. The frontend mock demo
-still works by default; set `NEXT_PUBLIC_DATA_SOURCE=api` to exercise the
-Phase 2 API-backed auth, onboarding, documents, and task flows.
+Phase 2 — backend and database foundation in progress. The frontend uses the
+Phase 2 API-backed auth, onboarding, documents, and task flows by default. Set
+`NEXT_PUBLIC_DATA_SOURCE=mock` only when you want the old frontend-only demo.
 
 ## Repo layout (target)
 
@@ -74,6 +74,13 @@ source .venv/bin/activate
 pip install -e .
 alembic upgrade head
 uvicorn opspilot.main:app --reload --host localhost --port 8000
+```
+
+In another terminal:
+
+```bash
+cd apps/web
+NEXT_PUBLIC_API_URL=http://localhost:8000 npm run dev -- -p 3000 -H localhost
 ```
 
 ## License

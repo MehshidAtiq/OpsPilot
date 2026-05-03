@@ -4,6 +4,7 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field
 
+from .company import CompanyResponse
 from .common import OrmModel
 
 
@@ -31,3 +32,4 @@ class UserResponse(OrmModel):
 
 class AuthResponse(BaseModel):
     user: UserResponse
+    company: CompanyResponse

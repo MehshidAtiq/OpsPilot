@@ -25,8 +25,25 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}) {
   });
 
   if (!response.ok) {
+    const contentType = response.headers.get("content-type") ?? "";
+    const fallback = `API request failed: ${response.status}`;
+    if (contentType.includes("application/json")) {
+      const payload = await response.json().catch(() => null);
+      const detail = payload?.detail;
+      if (typeof detail === "string") {
+        throw new Error(detail);
+      }
+      if (Array.isArray(detail) && detail.length > 0) {
+        const first = detail[0];
+        if (typeof first?.msg === "string") {
+          throw new Error(first.msg);
+        }
+      }
+      throw new Error(fallback);
+    }
+
     const text = await response.text();
-    throw new Error(text || `API request failed: ${response.status}`);
+    throw new Error(text || fallback);
   }
 
   if (response.status === 204) {

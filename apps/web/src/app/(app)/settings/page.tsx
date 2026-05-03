@@ -1,4 +1,5 @@
 import { Globe2 } from "lucide-react";
+import { AccountSettings } from "@/components/settings/account-settings";
 import { LanguageSettings } from "@/components/settings/language-settings";
 import { SettingsTabs } from "@/components/settings/settings-tabs";
 import { PageHeader } from "@/components/ui/page-header";
@@ -21,6 +22,7 @@ export default async function SettingsPage() {
         }
       />
       <SettingsTabs />
+      <AccountSettings />
       <LanguageSettings />
     </div>
   );

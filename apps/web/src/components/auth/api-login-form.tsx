@@ -6,12 +6,19 @@ import { Lock, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { login, signup } from "@/lib/api/auth";
+import { cn } from "@/lib/utils";
 
 type Mode = "login" | "signup";
 
-export function ApiLoginForm() {
+export function ApiLoginForm({
+  initialMode = "login",
+  redirectTo = "/dashboard",
+}: {
+  initialMode?: Mode;
+  redirectTo?: string;
+}) {
   const router = useRouter();
-  const [mode, setMode] = useState<Mode>("login");
+  const [mode, setMode] = useState<Mode>(initialMode);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +38,7 @@ export function ApiLoginForm() {
       } else {
         await login({ email, password });
       }
-      router.push(mode === "signup" ? "/onboarding" : "/dashboard");
+      router.replace(mode === "signup" ? "/onboarding" : redirectTo);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Authentication failed");
@@ -42,6 +49,27 @@ export function ApiLoginForm() {
 
   return (
     <form action={submit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-1 rounded-md border border-border bg-muted/40 p-1">
+        {(["login", "signup"] as const).map((nextMode) => (
+          <button
+            key={nextMode}
+            type="button"
+            onClick={() => {
+              setMode(nextMode);
+              setError(null);
+            }}
+            className={cn(
+              "h-8 rounded-md text-xs font-medium transition-colors",
+              mode === nextMode
+                ? "bg-card text-foreground shadow-sm"
+                : "text-muted-foreground hover:bg-card/70 hover:text-foreground",
+            )}
+          >
+            {nextMode === "login" ? "Sign in" : "Sign up"}
+          </button>
+        ))}
+      </div>
+
       {mode === "signup" && (
         <div className="space-y-2">
           <div>
@@ -103,7 +131,10 @@ export function ApiLoginForm() {
       <button
         type="button"
         className="w-full text-center text-[11px] text-primary hover:underline"
-        onClick={() => setMode((current) => (current === "login" ? "signup" : "login"))}
+        onClick={() => {
+          setMode((current) => (current === "login" ? "signup" : "login"));
+          setError(null);
+        }}
       >
         {mode === "login"
           ? "Need an account? Create one"
@@ -112,4 +143,3 @@ export function ApiLoginForm() {
     </form>
   );
 }
-

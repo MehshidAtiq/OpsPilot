@@ -10,6 +10,7 @@ from ..db import get_session
 from ..deps import get_current_user
 from ..models import Company, User
 from ..schemas.auth import AuthResponse, LoginRequest, SignupRequest, UserResponse
+from ..schemas.company import CompanyResponse
 from ..services.audit import write_audit_log
 from ..services.auth import create_access_token, hash_password, verify_password
 
@@ -25,6 +26,15 @@ def _set_session_cookie(response: Response, user: User) -> None:
         samesite="lax",
         max_age=settings.auth_token_ttl_seconds,
         path="/",
+    )
+
+
+async def _auth_response(session: AsyncSession, user: User) -> AuthResponse:
+    result = await session.execute(select(Company).where(Company.id == user.company_id))
+    company = result.scalar_one()
+    return AuthResponse(
+        user=UserResponse.model_validate(user),
+        company=CompanyResponse.model_validate(company),
     )
 
 
@@ -70,7 +80,8 @@ async def signup(
         metadata={"method": "signup"},
     )
     await session.commit()
-    return AuthResponse(user=UserResponse.model_validate(user))
+    await session.refresh(user)
+    return await _auth_response(session, user)
 
 
 @router.post("/login", response_model=AuthResponse)
@@ -100,16 +111,23 @@ async def login(
     )
     await session.commit()
     await session.refresh(user)
-    return AuthResponse(user=UserResponse.model_validate(user))
+    return await _auth_response(session, user)
 
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
-async def logout(response: Response) -> Response:
+async def logout(response: Response) -> None:
     response.delete_cookie(settings.auth_cookie_name, path="/")
-    return response
+    response.status_code = status.HTTP_204_NO_CONTENT
 
 
 @router.get("/me", response_model=UserResponse)
 async def me(user: User = Depends(get_current_user)) -> UserResponse:
     return UserResponse.model_validate(user)
 
+
+@router.get("/session", response_model=AuthResponse)
+async def session(
+    user: User = Depends(get_current_user),
+    db_session: AsyncSession = Depends(get_session),
+) -> AuthResponse:
+    return await _auth_response(db_session, user)

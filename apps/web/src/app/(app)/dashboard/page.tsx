@@ -8,6 +8,7 @@ import {
   Mail,
   Sparkles,
 } from "lucide-react";
+import { SessionFirstName } from "@/components/auth/session-first-name";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,10 +44,10 @@ export default async function DashboardPage() {
         <div className="mb-3 flex items-center gap-2 text-xs text-muted-foreground">
           <Sparkles className="h-3.5 w-3.5" />
           {t("dashboard.briefing")} · {t("dashboard.generatedAt")} ·{" "}
-          {currentUser.name.split(" ")[0]}
+          <SessionFirstName fallback={currentUser.name} />
         </div>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-1">
-          {t("dashboard.greeting")}, {currentUser.name.split(" ")[0]}.
+          {t("dashboard.greeting")}, <SessionFirstName fallback={currentUser.name} />.
         </h1>
         <p className="text-sm text-muted-foreground mb-4 max-w-xl">
           {t("dashboard.intro")}

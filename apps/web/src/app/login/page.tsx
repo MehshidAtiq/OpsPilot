@@ -7,7 +7,19 @@ import { Input } from "@/components/ui/input";
 import { ApiLoginForm } from "@/components/auth/api-login-form";
 import { USE_API_DATA } from "@/lib/api/config";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string; next?: string; switch?: string }>;
+}) {
+  const params = await searchParams;
+  const initialMode = params.mode === "signup" ? "signup" : "login";
+  const isSwitchingAccount = params.switch === "1";
+  const redirectTo =
+    params.next?.startsWith("/") && !params.next.startsWith("//")
+      ? params.next
+      : "/dashboard";
+
   return (
     <div className="min-h-screen bg-muted/30 flex flex-col items-center justify-center px-6">
       <div className="mb-6 flex items-center gap-2">
@@ -20,14 +32,18 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardContent className="space-y-4 py-6">
           <div>
-            <h1 className="text-base font-semibold">Anmelden</h1>
+            <h1 className="text-base font-semibold">
+              {initialMode === "signup" ? "Create your account" : "Sign in"}
+            </h1>
             <p className="mt-1 text-xs text-muted-foreground">
-              Mit deiner Geschäfts-E-Mail. SSO via Google ist verfügbar.
+              {isSwitchingAccount
+                ? "You have been signed out. Sign in with another account."
+                : "Use your work email and password. Google SSO is ready for a later OAuth pass."}
             </p>
           </div>
 
           {USE_API_DATA ? (
-            <ApiLoginForm />
+            <ApiLoginForm initialMode={initialMode} redirectTo={redirectTo} />
           ) : (
             <>
               <div className="space-y-2">
@@ -43,7 +59,7 @@ export default function LoginPage() {
 
               <Link href="/dashboard" className="block">
                 <Button variant="primary" className="w-full">
-                  <Lock className="h-4 w-4" /> Anmelden
+                  <Lock className="h-4 w-4" /> Sign in
                 </Button>
               </Link>
             </>
@@ -54,20 +70,26 @@ export default function LoginPage() {
               <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-[11px] uppercase">
-              <span className="bg-card px-2 text-muted-foreground">oder</span>
+              <span className="bg-card px-2 text-muted-foreground">or</span>
             </div>
           </div>
 
-          <Link href="/dashboard" className="block">
-            <Button variant="outline" className="w-full">
-              Mit Google fortfahren
+          {USE_API_DATA ? (
+            <Button type="button" variant="outline" className="w-full" disabled>
+              Continue with Google
             </Button>
-          </Link>
+          ) : (
+            <Link href="/dashboard" className="block">
+              <Button variant="outline" className="w-full">
+                Continue with Google
+              </Button>
+            </Link>
+          )}
 
           <p className="text-center text-[11px] text-muted-foreground">
-            Neu bei OpsPilot?{" "}
-            <Link href="/onboarding" className="text-primary hover:underline">
-              Setup starten
+            New to OpsPilot?{" "}
+            <Link href="/login?mode=signup" className="text-primary hover:underline">
+              Create account
             </Link>
           </p>
         </CardContent>
@@ -75,7 +97,7 @@ export default function LoginPage() {
 
       <div className="mt-4 flex items-center gap-2">
         <Badge variant="success">EU/Frankfurt</Badge>
-        <Badge variant="outline">DSGVO-konform</Badge>
+        <Badge variant="outline">GDPR-ready</Badge>
       </div>
     </div>
   );
