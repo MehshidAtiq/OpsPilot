@@ -4,34 +4,34 @@ export const approvals: Approval[] = [
   {
     id: "ap_mueller_reply",
     actionType: "email_send",
-    title: "Antwort an Müller GmbH — M365-Anfrage",
+    title: "Reply to Mueller GmbH — M365 inquiry",
     rationale:
-      "Inbound-Anfrage zu Cloud-Migration (passt zu Ihrer Kernleistung). 4 Tage unbeantwortet, hohe Priorität. Entwurf nutzt die Leistungsübersicht 2026 und die Cloud-Migrations-Vorlage.",
+      "Inbound cloud migration inquiry that matches your core service. Unanswered for 4 days, high priority. Draft uses the 2026 service overview and the cloud migration template.",
     sources: [
-      { documentId: "doc_services", documentTitle: "Leistungsübersicht 2026.pdf", chunkIndex: 3, label: "Leistungsübersicht 2026 · §M365" },
-      { documentId: "doc_proposal_tpl", documentTitle: "Angebotsvorlage Cloud-Migration.docx", chunkIndex: 1, label: "Angebotsvorlage · Phasenmodell" },
-      { threadId: "thr_mueller_m365", label: "Thread: Müller GmbH M365" },
+      { documentId: "doc_services", documentTitle: "Service overview 2026.pdf", chunkIndex: 3, label: "Service overview 2026 · M365" },
+      { documentId: "doc_proposal_tpl", documentTitle: "Cloud migration proposal template.docx", chunkIndex: 1, label: "Proposal template · phase model" },
+      { threadId: "thr_mueller_m365", label: "Thread: Mueller GmbH M365" },
     ],
     payload: {
       to: ["m.heller@mueller-gmbh.de"],
-      subject: "Re: Anfrage: Migration zu Microsoft 365",
-      body: `Sehr geehrter Herr Heller,
+      subject: "Re: Inquiry: migration to Microsoft 365",
+      body: `Dear Mr. Heller,
 
-vielen Dank für Ihre Anfrage und die zusätzlichen Details zur aktuellen Umgebung — das hilft uns sehr.
+Thank you for your inquiry and the additional details about your current environment. That helps us a lot.
 
-Eine Migration in der von Ihnen skizzierten Größenordnung (~ 180 Arbeitsplätze, Exchange 2019, ~ 4 TB Fileserver, KRITIS-Anforderungen) decken wir typischerweise in vier Phasen ab:
+A migration of the size you outlined (~180 workstations, Exchange 2019, ~4 TB file server, critical-infrastructure requirements) is something we typically cover in four phases:
 
-1. Assessment & Zielarchitektur (2–3 Wochen)
-2. Pilotmigration mit ausgewählter Abteilung (3 Wochen)
-3. Wellenmigration aller Standorte (8–10 Wochen)
-4. Hyperc​are und Schulungen (4 Wochen)
+1. Assessment and target architecture (2-3 weeks)
+2. Pilot migration with one selected department (3 weeks)
+3. Wave migration across all sites (8-10 weeks)
+4. Hypercare and training (4 weeks)
 
-Ich schlage einen 60-minütigen Discovery-Call vor — dann können wir gemeinsam priorisieren und ich kann Ihnen bis Ende kommender Woche eine Aufwandschätzung mit Bandbreite zusenden. Hätten Sie am Donnerstag, 08.05., 10:00 oder Freitag, 09.05., 14:00 Zeit?
+I suggest a 60-minute discovery call so we can prioritize together and I can send you an effort estimate with a range by the end of next week. Would Thursday, 2026-05-08 at 10:00 or Friday, 2026-05-09 at 14:00 work for you?
 
-Mit freundlichen Grüßen
+Best regards
 Anna Sturm
 Sturm & Drang Consulting GmbH`,
-      language: "de",
+      language: "en",
       formality: "sie",
     },
     status: "pending",
@@ -43,24 +43,24 @@ Sturm & Drang Consulting GmbH`,
   {
     id: "ap_bayr_followup",
     actionType: "follow_up_send",
-    title: "Follow-up an Bayrische Werkzeugbau — keine Antwort seit 6 Tagen",
+    title: "Follow-up to Bavarian Tooling — no response for 6 days",
     rationale:
-      "Outbound vom 28.04. zur Wartungsvertrag-Verlängerung blieb unbeantwortet. Vertrag läuft am 30.06. aus — höfliche Erinnerung empfohlen.",
+      "Outbound message from 2026-04-28 about the maintenance contract renewal has not been answered. Contract expires on 2026-06-30, so a polite reminder is recommended.",
     sources: [
-      { threadId: "thr_bayr_wartung", label: "Thread: Bayrische Werkzeugbau Wartung" },
+      { threadId: "thr_bayr_wartung", label: "Thread: Bavarian Tooling maintenance" },
     ],
     payload: {
       to: ["it@bayr-werkzeug.de"],
-      subject: "Erinnerung: Verlängerung Wartungsvertrag",
-      body: `Sehr geehrter Herr Brunner,
+      subject: "Reminder: maintenance contract renewal",
+      body: `Dear Mr. Brunner,
 
-ich wollte kurz nachhören, ob meine Mail vom 28.04. zur Verlängerung Ihres Wartungsvertrages bei Ihnen angekommen ist. Da der Vertrag am 30.06. ausläuft, würde ich gerne in den nächsten zwei Wochen einen kurzen Termin finden, damit wir keine Lücke entstehen lassen.
+I wanted to quickly check whether my email from 2026-04-28 about renewing your maintenance contract reached you. Since the contract expires on 2026-06-30, I would like to find a short appointment within the next two weeks so we do not leave a gap.
 
-Falls es bei Ihnen aktuell nicht passt — kein Problem, dann melden Sie sich einfach, wenn es wieder besser passt.
+If now is not a good time, no problem. Just let me know when it works better for you.
 
-Mit freundlichen Grüßen
+Best regards
 Tobias Reinhardt`,
-      language: "de",
+      language: "en",
       formality: "sie",
     },
     status: "pending",
@@ -72,16 +72,16 @@ Tobias Reinhardt`,
   {
     id: "ap_mueller_task",
     actionType: "task_create",
-    title: "Aufgabe: Discovery Call Müller GmbH vorbereiten",
+    title: "Task: prepare Mueller GmbH discovery call",
     rationale:
-      "Aus dem Müller-Thread extrahiert. Der vorgeschlagene Discovery-Call braucht Briefing-Material vor dem 09.05.",
+      "Extracted from the Mueller thread. The proposed discovery call needs briefing material before 2026-05-09.",
     sources: [
-      { threadId: "thr_mueller_m365", label: "Thread: Müller GmbH M365" },
+      { threadId: "thr_mueller_m365", label: "Thread: Mueller GmbH M365" },
     ],
     payload: {
-      title: "Discovery Call Müller GmbH vorbereiten",
+      title: "Prepare Mueller GmbH discovery call",
       description:
-        "Briefing erstellen: 180 MA, KRITIS-Lieferant, Exchange 2019, 4 TB Fileserver. Phasenplan mitnehmen.",
+        "Create briefing: 180 employees, critical-infrastructure supplier, Exchange 2019, 4 TB file server. Bring phase plan.",
       ownerName: "Tobias Reinhardt",
       dueDate: "2026-05-09",
       priority: "high",
@@ -99,7 +99,7 @@ Tobias Reinhardt`,
     rationale:
       "Inbound from UK partner, English/informal. Pricing input requested by Wednesday. Draft confirms timeline and asks for the one-pager.",
     sources: [
-      { documentId: "doc_q3retro", documentTitle: "Q3-Retro Sturm & Drang.md", chunkIndex: 2, label: "Q3-Retro · Pricing" },
+      { documentId: "doc_q3retro", documentTitle: "Q3 retro Sturm & Drang.md", chunkIndex: 2, label: "Q3 retro · pricing" },
       { threadId: "thr_northcloud_joint", label: "Thread: NorthCloud joint" },
     ],
     payload: {
@@ -127,16 +127,16 @@ Anna`,
   {
     id: "ap_kraftstrom_dsgvo",
     actionType: "email_send",
-    title: "Antwort an KraftStrom — DSGVO-Frage AWS",
-    rationale: "Antwort mit Verweis auf interne DSGVO-Compliance-Checkliste.",
+    title: "Reply to KraftStrom — GDPR question about AWS",
+    rationale: "Reply with reference to the internal GDPR compliance checklist.",
     sources: [
-      { documentId: "doc_dsgvo", documentTitle: "DSGVO-Compliance-Checkliste.md", chunkIndex: 4, label: "DSGVO-Checkliste · Hosting-Region" },
+      { documentId: "doc_dsgvo", documentTitle: "GDPR compliance checklist.md", chunkIndex: 4, label: "GDPR checklist · hosting region" },
     ],
     payload: {
       to: ["a.becker@kraftstrom.de"],
-      subject: "Re: Frage zur DSGVO-Compliance bei AWS",
-      body: "Hallo Frau Becker,\n\nbei AWS muss die EU-Region pro Service explizit gesetzt werden — kein automatischer Switch. Unsere Checkliste (Punkt 4.2) listet die Default-Regionen pro Service. Ich kann Ihnen das Dokument gerne zukommen lassen…",
-      language: "de",
+      subject: "Re: Question about GDPR compliance on AWS",
+      body: "Hello Ms. Becker,\n\nFor AWS, the EU region must be explicitly set per service; there is no automatic switch. Our checklist (section 4.2) lists the default regions by service. I can gladly send you the document...",
+      language: "en",
       formality: "sie",
     },
     status: "edited",
@@ -150,11 +150,11 @@ Anna`,
   {
     id: "ap_mueller_onboarding",
     actionType: "task_create",
-    title: "Aufgabe: Onboarding-Doc an Müller GmbH versenden",
-    rationale: "Aus Müller-Thread extrahiert.",
-    sources: [{ threadId: "thr_mueller_m365", label: "Thread: Müller GmbH" }],
+    title: "Task: send onboarding document to Mueller GmbH",
+    rationale: "Extracted from the Mueller thread.",
+    sources: [{ threadId: "thr_mueller_m365", label: "Thread: Mueller GmbH" }],
     payload: {
-      title: "Onboarding-Doc an Müller GmbH versenden",
+      title: "Send onboarding document to Mueller GmbH",
       ownerName: "Lena Hoffmann",
       dueDate: "2026-05-06",
       priority: "med",

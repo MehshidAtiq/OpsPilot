@@ -5,9 +5,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const RTF = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+const relativeTimeFormatters = new Map<string, Intl.RelativeTimeFormat>();
 
-export function relativeTime(iso: string) {
+function getRelativeTimeFormatter(locale: string) {
+  const cached = relativeTimeFormatters.get(locale);
+  if (cached) return cached;
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  relativeTimeFormatters.set(locale, formatter);
+  return formatter;
+}
+
+export function relativeTime(iso: string, locale = "de-DE") {
+  const formatter = getRelativeTimeFormatter(locale);
   const then = new Date(iso).getTime();
   const now = Date.now();
   const diffMs = then - now;
@@ -15,9 +24,9 @@ export function relativeTime(iso: string) {
   const minutes = Math.round(diffMs / 60000);
   const hours = Math.round(diffMs / (60 * 60 * 1000));
   const days = Math.round(diffMs / (24 * 60 * 60 * 1000));
-  if (abs < 60 * 60 * 1000) return RTF.format(minutes, "minute");
-  if (abs < 24 * 60 * 60 * 1000) return RTF.format(hours, "hour");
-  return RTF.format(days, "day");
+  if (abs < 60 * 60 * 1000) return formatter.format(minutes, "minute");
+  if (abs < 24 * 60 * 60 * 1000) return formatter.format(hours, "hour");
+  return formatter.format(days, "day");
 }
 
 export function formatDateTime(iso: string, locale = "de-DE") {

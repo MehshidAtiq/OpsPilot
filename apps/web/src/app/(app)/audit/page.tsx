@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/lib/i18n/provider";
 import { auditLogs, users } from "@/lib/mocks";
 import { formatDateTime, cn } from "@/lib/utils";
 
@@ -49,6 +50,7 @@ const ACTION_TONE: Record<string, "neutral" | "primary" | "success" | "warning" 
 };
 
 export default function AuditPage() {
+  const { locale, t } = useI18n();
   const [user, setUser] = useState<string>("");
   const [action, setAction] = useState<string>("");
   const [query, setQuery] = useState<string>("");
@@ -70,21 +72,18 @@ export default function AuditPage() {
   return (
     <div>
       <PageHeader
-        title="Audit log"
-        description="Alles, was die KI gelesen, generiert oder geschrieben hat — und wer es freigegeben hat. Append-only."
+        title={t("audit.title")}
+        description={t("audit.description")}
         actions={
           <Button variant="outline" size="sm">
-            <Download className="h-4 w-4" /> CSV exportieren
+            <Download className="h-4 w-4" /> {t("audit.exportCsv")}
           </Button>
         }
       />
 
       <div className="mb-3 flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50/60 px-3 py-2 text-xs text-blue-900">
         <ShieldCheck className="h-4 w-4 shrink-0" />
-        <span>
-          GDPR / DSGVO: Quellen werden bei jedem Generierungs-Schritt mitgeloggt.
-          Export jederzeit, Löschung auf Anfrage.
-        </span>
+        <span>{t("audit.gdpr")}</span>
       </div>
 
       {/* Filters */}
@@ -94,7 +93,7 @@ export default function AuditPage() {
           onChange={(e) => setUser(e.target.value)}
           className="h-9 rounded-md border border-border bg-card px-2 text-sm"
         >
-          <option value="">Alle Nutzer</option>
+          <option value="">{t("audit.allUsers")}</option>
           <option value="system">system</option>
           {users.map((u) => (
             <option key={u.id} value={u.name}>
@@ -107,7 +106,7 @@ export default function AuditPage() {
           onChange={(e) => setAction(e.target.value)}
           className="h-9 rounded-md border border-border bg-card px-2 text-sm"
         >
-          <option value="">Alle Aktionen</option>
+          <option value="">{t("audit.allActions")}</option>
           {Object.entries(ACTION_LABELS).map(([k, v]) => (
             <option key={k} value={k}>
               {v}
@@ -115,7 +114,7 @@ export default function AuditPage() {
           ))}
         </select>
         <Input
-          placeholder="Suche nach Entität…"
+          placeholder={t("audit.searchPlaceholder")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -123,10 +122,10 @@ export default function AuditPage() {
 
       <Card className="overflow-hidden">
         <div className="grid grid-cols-[160px_120px_1fr_1fr_30px] items-center gap-3 px-4 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground bg-muted/40 border-b border-border">
-          <span>Zeitpunkt</span>
-          <span>Akteur</span>
-          <span>Aktion</span>
-          <span>Entität</span>
+          <span>{t("audit.time")}</span>
+          <span>{t("audit.actor")}</span>
+          <span>{t("audit.action")}</span>
+          <span>{t("audit.entity")}</span>
           <span></span>
         </div>
         <div className="divide-y divide-border">
@@ -143,7 +142,7 @@ export default function AuditPage() {
                   )}
                 >
                   <span className="text-muted-foreground font-mono text-[11px]">
-                    {formatDateTime(log.createdAt)}
+                    {formatDateTime(log.createdAt, locale)}
                   </span>
                   <span className="truncate">
                     {log.userName === "system" ? (
@@ -195,15 +194,15 @@ export default function AuditPage() {
           {filtered.length === 0 && (
             <div className="px-4 py-8 text-center text-xs text-muted-foreground">
               <ScrollText className="mx-auto mb-2 h-5 w-5 opacity-50" />
-              Keine Einträge passen zu den Filtern.
+              {t("audit.noEntries")}
             </div>
           )}
         </div>
       </Card>
 
       <p className="mt-3 text-[11px] text-muted-foreground">
-        {filtered.length} von {auditLogs.length} Einträgen ·
-        Append-only · Hashing pro Eintrag (geplant) · 7-Jahre-Retention konfigurierbar
+        {filtered.length} / {auditLogs.length} {t("audit.entries")} ·{" "}
+        {t("audit.footer")}
       </p>
     </div>
   );

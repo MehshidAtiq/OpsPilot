@@ -4,29 +4,31 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getServerI18n } from "@/lib/i18n/server";
 import { clientById, meetings } from "@/lib/mocks";
 import { formatDateTime, cn } from "@/lib/utils";
 
-export default function MeetingsPage() {
+export default async function MeetingsPage() {
+  const { locale, t } = await getServerI18n();
   const upcoming = meetings.filter((m) => m.status === "upcoming");
   const past = meetings.filter((m) => m.status === "done");
 
   return (
     <div>
       <PageHeader
-        title="Meetings"
-        description="Vor dem Termin: Kontext und Agenda. Nach dem Termin: Zusammenfassung, Entscheidungen, Aufgaben."
+        title={t("meetings.title")}
+        description={t("meetings.description")}
         actions={
           <Link href="/meetings/new">
             <Button variant="primary">
-              <Plus className="h-4 w-4" /> Transkript verarbeiten
+              <Plus className="h-4 w-4" /> {t("meetings.processTranscript")}
             </Button>
           </Link>
         }
       />
 
       <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Heute & geplant
+        {t("meetings.upcoming")}
       </h2>
       <Card className="mb-6">
         <CardContent className="-mx-2 -my-1 divide-y divide-border">
@@ -38,7 +40,7 @@ export default function MeetingsPage() {
             >
               <span className="flex h-10 w-10 flex-col items-center justify-center rounded-md border border-border bg-muted text-[10px] leading-none shrink-0">
                 <span className="font-semibold">
-                  {new Date(m.scheduledAt).toLocaleTimeString("de-DE", {
+                  {new Date(m.scheduledAt).toLocaleTimeString(locale, {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
@@ -49,9 +51,11 @@ export default function MeetingsPage() {
                 <div className="text-sm font-medium leading-tight">{m.title}</div>
                 <div className="mt-0.5 flex items-center gap-2 text-[11px] text-muted-foreground flex-wrap">
                   <Calendar className="h-3 w-3" />
-                  {formatDateTime(m.scheduledAt)}
+                  {formatDateTime(m.scheduledAt, locale)}
                   <span>·</span>
-                  <span>{m.attendees.length} Teilnehmer</span>
+                  <span>
+                    {m.attendees.length} {t("common.participants")}
+                  </span>
                   {m.clientId && (
                     <>
                       <span>·</span>
@@ -68,7 +72,7 @@ export default function MeetingsPage() {
       </Card>
 
       <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Bereits verarbeitet
+        {t("meetings.processed")}
       </h2>
       <Card>
         <CardContent className="-mx-2 -my-1 divide-y divide-border">
@@ -90,12 +94,12 @@ export default function MeetingsPage() {
                 </div>
                 <div className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
                   <Badge variant="success">
-                    {m.actionItems?.length ?? 0} Action items
+                    {m.actionItems?.length ?? 0} {t("meetings.actionItems")}
                   </Badge>
                   <Badge variant="primary">
-                    {m.decisions?.length ?? 0} Entscheidungen
+                    {m.decisions?.length ?? 0} {t("meetings.decisions")}
                   </Badge>
-                  <span>· {formatDateTime(m.scheduledAt)}</span>
+                  <span>· {formatDateTime(m.scheduledAt, locale)}</span>
                 </div>
               </div>
             </Link>

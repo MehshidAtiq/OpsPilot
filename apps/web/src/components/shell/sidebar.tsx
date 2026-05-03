@@ -12,57 +12,59 @@ import {
   Sparkles,
   BookOpen,
   ScrollText,
-  Plug,
+  Settings,
   ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { approvals } from "@/lib/mocks";
+import { useI18n } from "@/lib/i18n/provider";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
 type NavItem = {
-  label: string;
+  label: TranslationKey;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   badge?: number;
 };
 
-type NavGroup = { label: string; items: NavItem[] };
+type NavGroup = { label: TranslationKey; items: NavItem[] };
 
 function buildNav(): NavGroup[] {
   const pendingApprovals = approvals.filter((a) => a.status === "pending").length;
   return [
     {
-      label: "Today",
+      label: "nav.today",
       items: [
-        { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+        { label: "nav.dashboard", href: "/dashboard", icon: LayoutDashboard },
         {
-          label: "Approvals",
+          label: "nav.approvals",
           href: "/approvals",
           icon: CheckCircle2,
           badge: pendingApprovals,
         },
-        { label: "Inbox", href: "/inbox", icon: Inbox },
+        { label: "nav.inbox", href: "/inbox", icon: Inbox },
       ],
     },
     {
-      label: "Work",
+      label: "nav.work",
       items: [
-        { label: "Meetings", href: "/meetings", icon: Calendar },
-        { label: "Tasks", href: "/tasks", icon: Kanban },
-        { label: "Follow-ups", href: "/follow-ups", icon: Bell },
+        { label: "nav.meetings", href: "/meetings", icon: Calendar },
+        { label: "nav.tasks", href: "/tasks", icon: Kanban },
+        { label: "nav.followUps", href: "/follow-ups", icon: Bell },
       ],
     },
     {
-      label: "Knowledge",
+      label: "nav.knowledge",
       items: [
-        { label: "Knowledge base", href: "/knowledge", icon: BookOpen },
-        { label: "Skills", href: "/skills", icon: Sparkles },
+        { label: "nav.knowledgeBase", href: "/knowledge", icon: BookOpen },
+        { label: "nav.skills", href: "/skills", icon: Sparkles },
       ],
     },
     {
-      label: "Trust",
+      label: "nav.trust",
       items: [
-        { label: "Audit log", href: "/audit", icon: ScrollText },
-        { label: "Integrations", href: "/settings/integrations", icon: Plug },
+        { label: "nav.auditLog", href: "/audit", icon: ScrollText },
+        { label: "nav.settings", href: "/settings", icon: Settings },
       ],
     },
   ];
@@ -70,6 +72,7 @@ function buildNav(): NavGroup[] {
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { t } = useI18n();
   const groups = buildNav();
   return (
     <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-border bg-card">
@@ -80,7 +83,7 @@ export function Sidebar() {
         <div className="flex flex-col leading-tight">
           <span className="text-sm font-semibold">OpsPilot</span>
           <span className="text-[10px] text-muted-foreground">
-            Approval-gated AI ops
+            {t("app.tagline")}
           </span>
         </div>
       </div>
@@ -88,7 +91,7 @@ export function Sidebar() {
         {groups.map((group) => (
           <div key={group.label} className="mb-4">
             <div className="px-2 mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {group.label}
+              {t(group.label)}
             </div>
             <ul className="flex flex-col gap-0.5">
               {group.items.map((item) => {
@@ -110,7 +113,7 @@ export function Sidebar() {
                     >
                       <span className="flex items-center gap-2">
                         <Icon className="h-4 w-4" />
-                        {item.label}
+                        {t(item.label)}
                       </span>
                       {item.badge ? (
                         <span
@@ -133,7 +136,7 @@ export function Sidebar() {
         ))}
       </nav>
       <div className="border-t border-border p-3 text-[11px] text-muted-foreground">
-        Phase 1 · Mock data · konaktiva demo
+        {t("app.footer")}
       </div>
     </aside>
   );

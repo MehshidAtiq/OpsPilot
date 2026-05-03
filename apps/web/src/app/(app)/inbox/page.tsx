@@ -3,10 +3,12 @@ import { Inbox as InboxIcon } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { getServerI18n } from "@/lib/i18n/server";
 import { clientById, threads } from "@/lib/mocks";
 import { cn, relativeTime } from "@/lib/utils";
 
-export default function InboxPage() {
+export default async function InboxPage() {
+  const { locale, t } = await getServerI18n();
   const sorted = [...threads].sort(
     (a, b) =>
       new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime(),
@@ -14,32 +16,33 @@ export default function InboxPage() {
   return (
     <div>
       <PageHeader
-        title="Inbox"
-        description="E-Mail-Threads, mit KI-Zusammenfassung und Vorschlag pro Thread."
+        title={t("inbox.title")}
+        description={t("inbox.description")}
         actions={
           <Badge variant="outline">
             <InboxIcon className="h-3 w-3" />
-            {threads.filter((t) => t.hasUnread).length} ungelesen
+            {threads.filter((thread) => thread.hasUnread).length}{" "}
+            {t("common.unread")}
           </Badge>
         }
       />
       <Card>
         <CardContent className="-mx-2 -my-1 divide-y divide-border">
-          {sorted.map((t) => {
-            const client = clientById(t.clientId);
+          {sorted.map((thread) => {
+            const client = clientById(thread.clientId);
             return (
               <Link
-                key={t.id}
-                href={`/inbox/${t.id}`}
+                key={thread.id}
+                href={`/inbox/${thread.id}`}
                 className={cn(
                   "flex items-start gap-3 px-3 py-3 hover:bg-muted/50 rounded-md",
-                  t.hasUnread && "bg-blue-50/30",
+                  thread.hasUnread && "bg-blue-50/30",
                 )}
               >
                 <span
                   className={cn(
                     "mt-1 h-2 w-2 shrink-0 rounded-full",
-                    t.hasUnread ? "bg-primary" : "bg-transparent",
+                    thread.hasUnread ? "bg-primary" : "bg-transparent",
                   )}
                 />
                 <div className="flex-1 min-w-0">
@@ -47,21 +50,21 @@ export default function InboxPage() {
                     <span className="text-sm font-medium truncate">
                       {client?.name}
                     </span>
-                    {t.urgency === "high" && (
-                      <Badge variant="destructive">dringend</Badge>
+                    {thread.urgency === "high" && (
+                      <Badge variant="destructive">{t("inbox.urgent")}</Badge>
                     )}
-                    {t.detectedLanguage === "en" && (
+                    {thread.detectedLanguage === "en" && (
                       <Badge variant="neutral">EN</Badge>
                     )}
                     <span className="ml-auto text-[11px] text-muted-foreground shrink-0">
-                      {relativeTime(t.lastMessageAt)}
+                      {relativeTime(thread.lastMessageAt, locale)}
                     </span>
                   </div>
                   <div className="mt-0.5 text-xs text-foreground/80 truncate">
-                    {t.subject}
+                    {thread.subject}
                   </div>
                   <div className="mt-1 text-[11px] text-muted-foreground line-clamp-2">
-                    {t.aiSummary}
+                    {thread.aiSummary}
                   </div>
                 </div>
               </Link>

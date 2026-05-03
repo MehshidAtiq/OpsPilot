@@ -3,30 +3,43 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ApiTaskBoard } from "@/components/tasks/api-task-board";
+import { USE_API_DATA } from "@/lib/api/config";
+import { getServerI18n } from "@/lib/i18n/server";
 import { clientById, tasks, userById } from "@/lib/mocks";
 import type { Task } from "@/types/models";
 import { cn } from "@/lib/utils";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
-const COLUMNS: { status: Task["status"]; label: string; tone: string }[] = [
-  { status: "proposed", label: "KI-Vorschlag", tone: "border-amber-300" },
-  { status: "approved", label: "Freigegeben", tone: "border-blue-300" },
-  { status: "in_progress", label: "In Arbeit", tone: "border-violet-300" },
-  { status: "done", label: "Erledigt", tone: "border-emerald-300" },
+const COLUMNS: {
+  status: Task["status"];
+  label: TranslationKey;
+  tone: string;
+}[] = [
+  { status: "proposed", label: "tasks.column.proposed", tone: "border-amber-300" },
+  { status: "approved", label: "tasks.column.approved", tone: "border-blue-300" },
+  { status: "in_progress", label: "tasks.column.inProgress", tone: "border-violet-300" },
+  { status: "done", label: "tasks.column.done", tone: "border-emerald-300" },
 ];
 
-export default function TasksPage() {
+export default async function TasksPage() {
+  const { t: translate } = await getServerI18n();
+
   return (
     <div>
       <PageHeader
-        title="Task board"
-        description="Aufgaben aus E-Mails und Meetings — KI schlägt vor, Mensch gibt frei, Team arbeitet."
+        title={translate("tasks.title")}
+        description={translate("tasks.description")}
         actions={
           <Button variant="primary">
-            <Plus className="h-4 w-4" /> Aufgabe
+            <Plus className="h-4 w-4" /> {translate("tasks.add")}
           </Button>
         }
       />
 
+      {USE_API_DATA ? (
+        <ApiTaskBoard />
+      ) : (
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {COLUMNS.map((col) => {
           const items = tasks.filter((t) => t.status === col.status);
@@ -38,7 +51,7 @@ export default function TasksPage() {
               <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold">
                 <span className="flex items-center gap-1">
                   <Kanban className="h-3.5 w-3.5 text-muted-foreground" />
-                  {col.label}
+                  {translate(col.label)}
                 </span>
                 <Badge variant="outline">{items.length}</Badge>
               </div>
@@ -74,7 +87,7 @@ export default function TasksPage() {
                           )}
                           {t.dueDate && (
                             <Badge variant="primary">
-                              fällig {t.dueDate}
+                              {translate("common.due")} {t.dueDate}
                             </Badge>
                           )}
                           {owner && (
@@ -84,7 +97,7 @@ export default function TasksPage() {
                           )}
                           {t.sourceType && t.sourceType !== "manual" && (
                             <Badge variant="info">
-                              aus {t.sourceType}
+                              {translate("common.from")} {t.sourceType}
                             </Badge>
                           )}
                         </div>
@@ -97,6 +110,7 @@ export default function TasksPage() {
           );
         })}
       </div>
+      )}
     </div>
   );
 }

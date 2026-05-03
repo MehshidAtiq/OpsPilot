@@ -54,6 +54,7 @@ tmp/
 postgres-data/
 minio-data/
 redis-data/
+.storage/
 
 # --- Build artefacts ---
 *.tsbuildinfo

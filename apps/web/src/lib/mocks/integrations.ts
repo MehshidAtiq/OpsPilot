@@ -4,7 +4,7 @@ export const integrations: Integration[] = [
   {
     kind: "gmail",
     label: "Gmail",
-    description: "Inbox-Sync für E-Mails und Threads.",
+    description: "Inbox sync for emails and threads.",
     status: "mocked",
     connectedAt: "2026-04-15T09:00:00+02:00",
     itemCount: 247,
@@ -12,7 +12,7 @@ export const integrations: Integration[] = [
   {
     kind: "calendar",
     label: "Google Calendar",
-    description: "Termine und Verfügbarkeiten.",
+    description: "Meetings and availability.",
     status: "mocked",
     connectedAt: "2026-04-15T09:00:00+02:00",
     itemCount: 38,
@@ -20,7 +20,7 @@ export const integrations: Integration[] = [
   {
     kind: "drive",
     label: "Google Drive",
-    description: "Dokumenten-Sync für die Wissensdatenbank.",
+    description: "Document sync for the knowledge base.",
     status: "mocked",
     connectedAt: "2026-04-22T11:30:00+02:00",
     itemCount: 6,
@@ -28,19 +28,19 @@ export const integrations: Integration[] = [
   {
     kind: "slack",
     label: "Slack",
-    description: "Benachrichtigungen + Befehle aus dem Workspace.",
+    description: "Notifications and commands from the workspace.",
     status: "disconnected",
   },
   {
     kind: "notion",
     label: "Notion",
-    description: "Wiki-Sync (read-only).",
+    description: "Wiki sync (read-only).",
     status: "disconnected",
   },
   {
     kind: "clickup",
     label: "ClickUp",
-    description: "Task-Sync (bidirektional, geplant).",
+    description: "Task sync (bidirectional, planned).",
     status: "disconnected",
   },
 ];

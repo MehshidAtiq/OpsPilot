@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
+import { getServerI18n } from "@/lib/i18n/server";
 import {
   approvals,
   clientById,
@@ -18,6 +19,7 @@ export default async function ThreadDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { locale, t } = await getServerI18n();
   const { id } = await params;
   const thread = threadById(id);
   if (!thread) notFound();
@@ -36,7 +38,7 @@ export default async function ThreadDetailPage({
         href="/inbox"
         className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-4"
       >
-        <ArrowLeft className="h-3 w-3" /> Inbox
+        <ArrowLeft className="h-3 w-3" /> {t("inbox.title")}
       </Link>
       <div className="mb-4 flex items-start justify-between gap-3 flex-wrap">
         <div>
@@ -49,9 +51,13 @@ export default async function ThreadDetailPage({
             <span>{client?.contactEmail}</span>
             <span>·</span>
             <Languages className="h-3 w-3" />
-            <span>{thread.detectedLanguage === "de" ? "Deutsch" : "English"}</span>
+            <span>
+              {thread.detectedLanguage === "de"
+                ? t("common.german")
+                : t("common.english")}
+            </span>
             {thread.urgency === "high" && (
-              <Badge variant="destructive">dringend</Badge>
+              <Badge variant="destructive">{t("inbox.urgent")}</Badge>
             )}
           </div>
         </div>
@@ -64,9 +70,7 @@ export default async function ThreadDetailPage({
         >
           <Button variant="primary">
             <Wand2 className="h-4 w-4" />
-            {linkedApproval
-              ? "Entwurf prüfen"
-              : "Antwort entwerfen"}
+            {linkedApproval ? t("inbox.checkDraft") : t("inbox.draftReply")}
           </Button>
         </Link>
       </div>
@@ -76,7 +80,7 @@ export default async function ThreadDetailPage({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
-            KI-Zusammenfassung
+            {t("inbox.aiSummary")}
           </CardTitle>
           <Badge variant="primary">summarize_thread</Badge>
         </CardHeader>
@@ -85,7 +89,7 @@ export default async function ThreadDetailPage({
           {thread.suggestedAction && (
             <div className="mt-3 rounded-md bg-accent/60 border border-blue-200 px-3 py-2 text-xs">
               <span className="font-semibold text-primary">
-                Vorgeschlagene Aktion:
+                {t("inbox.suggestedAction")}
               </span>{" "}
               {thread.suggestedAction}
             </div>
@@ -113,16 +117,16 @@ export default async function ThreadDetailPage({
                     {m.sender}
                   </span>
                   <span className="text-[10px] text-muted-foreground truncate">
-                    an {m.recipients.join(", ")}
+                    {t("inbox.to")} {m.recipients.join(", ")}
                   </span>
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 {m.direction === "outbound" && (
-                  <Badge variant="outline">gesendet</Badge>
+                  <Badge variant="outline">{t("inbox.sent")}</Badge>
                 )}
                 <span className="text-[10px] text-muted-foreground">
-                  {formatDateTime(m.receivedAt)}
+                  {formatDateTime(m.receivedAt, locale)}
                 </span>
               </div>
             </CardHeader>

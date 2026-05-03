@@ -9,11 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useI18n } from "@/lib/i18n/provider";
 import { clients, meetingById } from "@/lib/mocks";
 
 const SAMPLE = meetingById("mtg_kraftstrom_disc")!;
 
 export default function NewMeetingPage() {
+  const { t } = useI18n();
   const [transcript, setTranscript] = useState<string>("");
   const [running, setRunning] = useState(false);
   const [done, setDone] = useState(false);
@@ -36,11 +38,11 @@ export default function NewMeetingPage() {
         href="/meetings"
         className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-4"
       >
-        <ArrowLeft className="h-3 w-3" /> Meetings
+        <ArrowLeft className="h-3 w-3" /> {t("meetings.back")}
       </Link>
       <PageHeader
-        title="Meeting verarbeiten"
-        description="Transkript oder Notizen einfügen → KI extrahiert Zusammenfassung, Entscheidungen, Action Items, Follow-up."
+        title={t("meetings.newTitle")}
+        description={t("meetings.newDescription")}
       />
 
       {!done ? (
@@ -49,7 +51,7 @@ export default function NewMeetingPage() {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="block text-xs font-medium mb-1">
-                  Klient (optional)
+                  {t("meetings.clientOptional")}
                 </label>
                 <select className="h-9 w-full rounded-md border border-border bg-card px-2 text-sm">
                   <option>—</option>
@@ -59,27 +61,29 @@ export default function NewMeetingPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium mb-1">Titel</label>
+                <label className="block text-xs font-medium mb-1">
+                  {t("meetings.formTitle")}
+                </label>
                 <Input defaultValue="KraftStrom Discovery Call" />
               </div>
             </div>
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-xs font-medium">
-                  Transkript / Notizen
+                  {t("meetings.notes")}
                 </label>
                 <button
                   type="button"
                   onClick={loadSample}
                   className="text-[11px] text-primary hover:underline"
                 >
-                  Beispiel laden
+                  {t("meetings.loadSample")}
                 </button>
               </div>
               <Textarea
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
-                placeholder="Anna: Vielen Dank, dass Sie sich Zeit genommen haben…"
+                placeholder={t("meetings.notesPlaceholder")}
                 className="min-h-[260px] font-mono text-xs"
               />
             </div>
@@ -90,11 +94,10 @@ export default function NewMeetingPage() {
                 disabled={!transcript.trim() || running}
               >
                 <Wand2 className="h-4 w-4" />
-                {running ? "Verarbeite…" : "Skill ausführen: meeting_summary"}
+                {running ? t("meetings.processing") : t("meetings.runSkill")}
               </Button>
               <span className="text-[11px] text-muted-foreground">
-                Skill: <code className="font-mono">meeting_summary</code> · Approval:
-                Ja
+                {t("meetings.skillApproval")}
               </span>
             </div>
           </CardContent>
@@ -107,13 +110,15 @@ export default function NewMeetingPage() {
 }
 
 function ResultView() {
+  const { t } = useI18n();
+
   return (
     <div className="space-y-4">
       <Card className="border-blue-200/80">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
-            KI-Zusammenfassung
+            {t("meetings.aiSummary")}
           </CardTitle>
           <Badge variant="primary">meeting_summary</Badge>
         </CardHeader>
@@ -124,7 +129,7 @@ function ResultView() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Entscheidungen</CardTitle>
+          <CardTitle>{t("meetings.decisions")}</CardTitle>
           <Badge variant="success">{SAMPLE.decisions?.length}</Badge>
         </CardHeader>
         <CardContent>
@@ -141,16 +146,22 @@ function ResultView() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Vorgeschlagene Aufgaben</CardTitle>
-          <Badge variant="warning">{SAMPLE.actionItems?.length} → Approval pro Aufgabe</Badge>
+          <CardTitle>{t("meetings.suggestedTasks")}</CardTitle>
+          <Badge variant="warning">
+            {SAMPLE.actionItems?.length} → {t("meetings.approvalPerTask")}
+          </Badge>
         </CardHeader>
         <CardContent className="-mx-2 -my-1 divide-y divide-border">
           {SAMPLE.actionItems?.map((a, i) => (
             <div key={i} className="flex items-center gap-3 px-3 py-2 text-sm">
               <span className="flex-1">{a.text}</span>
-              {a.dueDate && <Badge variant="outline">fällig {a.dueDate}</Badge>}
+              {a.dueDate && (
+                <Badge variant="outline">
+                  {t("common.due")} {a.dueDate}
+                </Badge>
+              )}
               <Button size="sm" variant="outline">
-                Zur Freigabe
+                {t("common.toApproval")}
               </Button>
             </div>
           ))}

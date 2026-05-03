@@ -4,34 +4,37 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ApprovalCard } from "@/components/feature/approvals/approval-card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getServerI18n } from "@/lib/i18n/server";
 import { approvals } from "@/lib/mocks";
 
-export default function ApprovalsPage() {
+export default async function ApprovalsPage() {
+  const { t } = await getServerI18n();
   const pending = approvals.filter((a) => a.status === "pending");
   const decided = approvals.filter((a) => a.status !== "pending");
 
   return (
     <div>
       <PageHeader
-        title="Approval inbox"
-        description="Jede externe KI-Aktion landet hier zur Freigabe. Begründung und Quellen sichtbar — Sie entscheiden."
-        actions={<Badge variant="primary">{pending.length} offen</Badge>}
+        title={t("approvals.title")}
+        description={t("approvals.description")}
+        actions={
+          <Badge variant="primary">
+            {pending.length} {t("common.open")}
+          </Badge>
+        }
       />
 
       <div className="mb-3 flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50/60 px-3 py-2 text-xs text-blue-900">
         <CheckCircle2 className="h-4 w-4 shrink-0" />
-        <span>
-          Sicherheits-Eigenschaft: Das KI-Modell hat keine Schreibwerkzeuge.
-          Alles, was extern wirkt, durchläuft diese Inbox.
-        </span>
+        <span>{t("approvals.safety")}</span>
       </div>
 
       <section className="space-y-3 mb-8">
         {pending.length === 0 ? (
           <EmptyState
             icon={CheckCircle2}
-            title="Alle Freigaben bearbeitet"
-            description="Keine offenen Vorschläge. Sobald die KI etwas vorschlägt, erscheint es hier."
+            title={t("approvals.emptyTitle")}
+            description={t("approvals.emptyDescription")}
           />
         ) : (
           pending.map((a) => <ApprovalCard key={a.id} approval={a} />)
@@ -41,7 +44,7 @@ export default function ApprovalsPage() {
       {decided.length > 0 && (
         <section>
           <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Heute bereits entschieden
+            {t("approvals.decidedToday")}
           </h2>
           <Card>
             <CardContent className="divide-y divide-border -my-1 -mx-1">

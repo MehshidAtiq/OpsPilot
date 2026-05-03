@@ -3,9 +3,9 @@ import type { Task } from "@/types/models";
 export const tasks: Task[] = [
   {
     id: "t_hofbauer_finalize",
-    title: "Angebot Hofbauer Cloud-Backup finalisieren",
+    title: "Finalize Hofbauer cloud backup proposal",
     description:
-      "Festpreis-Frage zu wachsendem Datenvolumen (~200 GB/Jahr) im Angebot adressieren.",
+      "Address the fixed-price question for growing data volume (~200 GB/year) in the proposal.",
     ownerId: "u_tobias",
     dueDate: "2026-05-05",
     priority: "high",
@@ -17,8 +17,8 @@ export const tasks: Task[] = [
   },
   {
     id: "t_kraftstrom_dsgvo",
-    title: "DSGVO-Checkliste KraftStrom überprüfen",
-    description: "Vor Angebotserstellung Checkliste auf Audit-Scope anpassen.",
+    title: "Review KraftStrom GDPR checklist",
+    description: "Adapt the checklist to the audit scope before preparing the proposal.",
     ownerId: "u_lena",
     dueDate: "2026-05-08",
     priority: "med",
@@ -30,9 +30,9 @@ export const tasks: Task[] = [
   },
   {
     id: "t_mueller_discovery",
-    title: "Discovery Call Müller GmbH vorbereiten",
+    title: "Prepare Mueller GmbH discovery call",
     description:
-      "Briefing zu Müller GmbH (180 MA, KRITIS-Lieferant, Exchange 2019, 4 TB Fileserver) erstellen.",
+      "Create briefing for Mueller GmbH (180 employees, critical-infrastructure supplier, Exchange 2019, 4 TB file server).",
     ownerId: "u_tobias",
     dueDate: "2026-05-09",
     priority: "high",
@@ -44,7 +44,7 @@ export const tasks: Task[] = [
   },
   {
     id: "t_mueller_onboarding",
-    title: "Onboarding-Doc an Müller GmbH versenden",
+    title: "Send onboarding document to Mueller GmbH",
     ownerId: "u_lena",
     dueDate: "2026-05-06",
     priority: "med",
@@ -56,7 +56,7 @@ export const tasks: Task[] = [
   },
   {
     id: "t_q4_workshop",
-    title: "Q4 Roadmap-Workshop terminieren",
+    title: "Schedule Q4 roadmap workshop",
     ownerId: "u_anna",
     dueDate: "2026-05-15",
     priority: "med",
@@ -66,8 +66,8 @@ export const tasks: Task[] = [
   },
   {
     id: "t_bayr_wartung",
-    title: "Wartungsvertrag Bayrische Werkzeugbau verlängern",
-    description: "Anschreiben + neuer Vertragsentwurf bis 15.05.",
+    title: "Renew Bavarian Tooling maintenance contract",
+    description: "Prepare cover letter and new contract draft by 2026-05-15.",
     ownerId: "u_tobias",
     dueDate: "2026-05-15",
     priority: "high",
@@ -88,7 +88,7 @@ export const tasks: Task[] = [
   },
   {
     id: "t_slack_research",
-    title: "Slack-Workflow recherchieren (Notion → Tasks)",
+    title: "Research Slack workflow (Notion -> Tasks)",
     ownerId: "u_anna",
     priority: "low",
     status: "proposed",
@@ -97,7 +97,7 @@ export const tasks: Task[] = [
   },
   {
     id: "t_q3_billing",
-    title: "Rechnungsprüfung Q3",
+    title: "Q3 invoice review",
     ownerId: "u_lena",
     priority: "med",
     status: "done",
@@ -105,7 +105,7 @@ export const tasks: Task[] = [
   },
   {
     id: "t_dse_update",
-    title: "Datenschutzerklärung aktualisieren",
+    title: "Update privacy policy",
     ownerId: "u_lena",
     priority: "med",
     status: "approved",

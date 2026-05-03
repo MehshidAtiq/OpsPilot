@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ApiLoginForm } from "@/components/auth/api-login-form";
+import { USE_API_DATA } from "@/lib/api/config";
 
 export default function LoginPage() {
   return (
@@ -24,22 +26,28 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="space-y-2">
-            <div>
-              <label className="block text-xs font-medium mb-1">E-Mail</label>
-              <Input type="email" placeholder="anna@sturm-drang.de" />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1">Passwort</label>
-              <Input type="password" placeholder="••••••••" />
-            </div>
-          </div>
+          {USE_API_DATA ? (
+            <ApiLoginForm />
+          ) : (
+            <>
+              <div className="space-y-2">
+                <div>
+                  <label className="block text-xs font-medium mb-1">E-Mail</label>
+                  <Input type="email" placeholder="anna@sturm-drang.de" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium mb-1">Passwort</label>
+                  <Input type="password" placeholder="••••••••" />
+                </div>
+              </div>
 
-          <Link href="/dashboard" className="block">
-            <Button variant="primary" className="w-full">
-              <Lock className="h-4 w-4" /> Anmelden
-            </Button>
-          </Link>
+              <Link href="/dashboard" className="block">
+                <Button variant="primary" className="w-full">
+                  <Lock className="h-4 w-4" /> Anmelden
+                </Button>
+              </Link>
+            </>
+          )}
 
           <div className="relative py-1">
             <div className="absolute inset-0 flex items-center">

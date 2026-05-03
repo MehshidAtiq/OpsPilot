@@ -3,41 +3,56 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SettingsTabs } from "@/components/settings/settings-tabs";
 import { integrations } from "@/lib/mocks";
 import { formatDate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { getServerI18n } from "@/lib/i18n/server";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
-export default function IntegrationsPage() {
+export default async function IntegrationsPage() {
+  const { locale, t } = await getServerI18n();
   const connected = integrations.filter((i) => i.status === "mocked");
   const available = integrations.filter((i) => i.status === "disconnected");
 
   return (
     <div>
       <PageHeader
-        title="Integrationen"
-        description="Verbinde Datenquellen — alle laufen read-only ins Modell. Jede Aktion zurück durchläuft Approval."
+        title={t("settings.integrations.title")}
+        description={t("settings.integrations.description")}
         actions={
           <Badge variant="success">
             <ShieldCheck className="h-3 w-3" /> EU/Frankfurt
           </Badge>
         }
       />
+      <SettingsTabs />
 
       <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Verbunden
+        {t("common.connected")}
       </h2>
       <div className="grid gap-3 mb-8 md:grid-cols-2">
         {connected.map((i) => (
-          <IntegrationCardView key={i.kind} integration={i} />
+          <IntegrationCardView
+            key={i.kind}
+            integration={i}
+            locale={locale}
+            t={t}
+          />
         ))}
       </div>
 
       <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Verfügbar
+        {t("common.available")}
       </h2>
       <div className="grid gap-3 md:grid-cols-2">
         {available.map((i) => (
-          <IntegrationCardView key={i.kind} integration={i} />
+          <IntegrationCardView
+            key={i.kind}
+            integration={i}
+            locale={locale}
+            t={t}
+          />
         ))}
       </div>
     </div>
@@ -46,8 +61,12 @@ export default function IntegrationsPage() {
 
 function IntegrationCardView({
   integration,
+  locale,
+  t,
 }: {
   integration: (typeof integrations)[number];
+  locale: string;
+  t: (key: TranslationKey) => string;
 }) {
   const isConnected = integration.status === "mocked";
   return (
@@ -59,11 +78,11 @@ function IntegrationCardView({
         </CardTitle>
         {isConnected ? (
           <Badge variant="success">
-            <CheckCircle2 className="h-3 w-3" /> mocked
+            <CheckCircle2 className="h-3 w-3" /> {t("common.mocked")}
           </Badge>
         ) : (
           <Badge variant="neutral">
-            <XCircle className="h-3 w-3" /> nicht verbunden
+            <XCircle className="h-3 w-3" /> {t("common.disconnected")}
           </Badge>
         )}
       </CardHeader>
@@ -72,17 +91,19 @@ function IntegrationCardView({
         {isConnected ? (
           <div className="flex items-center justify-between text-[11px] text-muted-foreground">
             <span>
-              {integration.itemCount} Items · seit{" "}
-              {integration.connectedAt && formatDate(integration.connectedAt)}
+              {integration.itemCount} {t("common.items")} ·{" "}
+              {t("settings.integrations.since")}{" "}
+              {integration.connectedAt &&
+                formatDate(integration.connectedAt, locale)}
             </span>
             <Button size="sm" variant="outline">
-              Konfigurieren
+              {t("common.configure")}
             </Button>
           </div>
         ) : (
           <div className="flex justify-end">
             <Button size="sm" variant="primary">
-              Verbinden
+              {t("common.connect")}
             </Button>
           </div>
         )}

@@ -11,6 +11,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getServerI18n } from "@/lib/i18n/server";
 import { clientById, meetingById, userById } from "@/lib/mocks";
 import { formatDateTime } from "@/lib/utils";
 
@@ -19,6 +20,7 @@ export default async function MeetingDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { locale, t } = await getServerI18n();
   const { id } = await params;
   const m = meetingById(id);
   if (!m) notFound();
@@ -30,18 +32,18 @@ export default async function MeetingDetail({
         href="/meetings"
         className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-4"
       >
-        <ArrowLeft className="h-3 w-3" /> Meetings
+        <ArrowLeft className="h-3 w-3" /> {t("meetings.back")}
       </Link>
       <PageHeader
         title={m.title}
-        description={`${formatDateTime(m.scheduledAt)} · ${m.durationMin} min · ${m.attendees.length} Teilnehmer${client ? ` · ${client.name}` : ""}`}
+        description={`${formatDateTime(m.scheduledAt, locale)} · ${m.durationMin} min · ${m.attendees.length} ${t("common.participants")}${client ? ` · ${client.name}` : ""}`}
         actions={
           m.status === "upcoming" ? (
             <Button variant="primary">
-              <Wand2 className="h-4 w-4" /> Agenda entwerfen
+              <Wand2 className="h-4 w-4" /> {t("meetings.draftAgenda")}
             </Button>
           ) : (
-            <Button variant="outline">Follow-up entwerfen</Button>
+            <Button variant="outline">{t("meetings.draftFollowUp")}</Button>
           )
         }
       />
@@ -51,7 +53,7 @@ export default async function MeetingDetail({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" />
-              Vor-Meeting-Briefing
+              {t("meetings.preBriefing")}
             </CardTitle>
             <Badge variant="primary">daily_briefing</Badge>
           </CardHeader>
@@ -62,12 +64,12 @@ export default async function MeetingDetail({
                 {client.notes}
               </p>
             ) : (
-              <p>Internes Meeting — kein Klient-Kontext.</p>
+              <p>{t("meetings.internalNoClient")}</p>
             )}
             <ul className="mt-3 list-disc list-inside text-xs text-foreground/80 space-y-1">
-              <li>Letzte E-Mail im Thread: vor 2 Tagen</li>
-              <li>1 offene Aufgabe diesem Klienten zugeordnet</li>
-              <li>2 relevante Dokumente in der Wissensdatenbank</li>
+              <li>{t("meetings.lastEmail")}</li>
+              <li>{t("meetings.openTask")}</li>
+              <li>{t("meetings.relevantDocs")}</li>
             </ul>
           </CardContent>
         </Card>
@@ -78,7 +80,7 @@ export default async function MeetingDetail({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" />
-              KI-Zusammenfassung
+              {t("meetings.aiSummary")}
             </CardTitle>
             <Badge variant="primary">meeting_summary</Badge>
           </CardHeader>
@@ -91,7 +93,7 @@ export default async function MeetingDetail({
       {m.decisions && m.decisions.length > 0 && (
         <Card className="mb-4">
           <CardHeader>
-            <CardTitle>Entscheidungen</CardTitle>
+            <CardTitle>{t("meetings.decisions")}</CardTitle>
             <Badge variant="success">{m.decisions.length}</Badge>
           </CardHeader>
           <CardContent>
@@ -110,9 +112,9 @@ export default async function MeetingDetail({
       {m.actionItems && m.actionItems.length > 0 && (
         <Card className="mb-4">
           <CardHeader>
-            <CardTitle>Action items</CardTitle>
+            <CardTitle>{t("meetings.actionItems")}</CardTitle>
             <Badge variant="warning">
-              {m.actionItems.length} → vorgeschlagen
+              {m.actionItems.length} → {t("meetings.proposed")}
             </Badge>
           </CardHeader>
           <CardContent className="-mx-2 -my-1 divide-y divide-border">
@@ -128,10 +130,12 @@ export default async function MeetingDetail({
                     <Badge variant="neutral">{owner.name.split(" ")[0]}</Badge>
                   )}
                   {a.dueDate && (
-                    <Badge variant="outline">fällig {a.dueDate}</Badge>
+                    <Badge variant="outline">
+                      {t("common.due")} {a.dueDate}
+                    </Badge>
                   )}
                   <Button size="sm" variant="outline">
-                    Zur Freigabe
+                    {t("common.toApproval")}
                   </Button>
                 </div>
               );
@@ -145,7 +149,7 @@ export default async function MeetingDetail({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-muted-foreground" />
-              Transkript (Quelle)
+              {t("meetings.transcriptSource")}
             </CardTitle>
           </CardHeader>
           <CardContent>

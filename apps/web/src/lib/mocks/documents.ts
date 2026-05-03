@@ -3,7 +3,7 @@ import type { Document } from "@/types/models";
 export const documents: Document[] = [
   {
     id: "doc_services",
-    title: "Leistungsübersicht 2026.pdf",
+    title: "Service overview 2026.pdf",
     source: "upload",
     mime: "application/pdf",
     sizeBytes: 318_440,
@@ -12,11 +12,11 @@ export const documents: Document[] = [
     uploaderId: "u_anna",
     chunkCount: 14,
     summary:
-      "Beschreibt unsere vier Kernleistungen, Beispielprojekte und typische Tagessätze.",
+      "Describes our four core services, sample projects, and typical day rates.",
   },
   {
     id: "doc_proposal_tpl",
-    title: "Angebotsvorlage Cloud-Migration.docx",
+    title: "Cloud migration proposal template.docx",
     source: "upload",
     mime: "application/msword",
     sizeBytes: 96_120,
@@ -25,11 +25,11 @@ export const documents: Document[] = [
     uploaderId: "u_tobias",
     chunkCount: 9,
     summary:
-      "Standard-Vorlage für Cloud-Migrations-Angebote inkl. Phasenmodell, Timeline und Aufwandschätzung.",
+      "Standard template for cloud migration proposals, including phase model, timeline, and effort estimate.",
   },
   {
     id: "doc_dsgvo",
-    title: "DSGVO-Compliance-Checkliste.md",
+    title: "GDPR compliance checklist.md",
     source: "upload",
     mime: "text/markdown",
     sizeBytes: 12_330,
@@ -38,11 +38,11 @@ export const documents: Document[] = [
     uploaderId: "u_lena",
     chunkCount: 6,
     summary:
-      "Interne Checkliste für DSGVO-Audits — Datenflüsse, AVV, Löschkonzept, Hosting-Region.",
+      "Internal checklist for GDPR audits: data flows, data processing agreements, deletion concept, and hosting region.",
   },
   {
     id: "doc_q3retro",
-    title: "Q3-Retro Sturm & Drang.md",
+    title: "Q3 retro Sturm & Drang.md",
     source: "upload",
     mime: "text/markdown",
     sizeBytes: 8_410,
@@ -51,11 +51,11 @@ export const documents: Document[] = [
     uploaderId: "u_anna",
     chunkCount: 4,
     summary:
-      "Notizen aus der Q3-Retrospektive — Wins, Engpässe, Q4-Ziele.",
+      "Notes from the Q3 retrospective: wins, bottlenecks, and Q4 goals.",
   },
   {
     id: "doc_onboarding",
-    title: "Onboarding-Checkliste Neukunden.md",
+    title: "New customer onboarding checklist.md",
     source: "upload",
     mime: "text/markdown",
     sizeBytes: 5_840,
@@ -64,11 +64,11 @@ export const documents: Document[] = [
     uploaderId: "u_lena",
     chunkCount: 3,
     summary:
-      "Standard-Schritte beim Onboarding neuer Kunden — AVV, Kickoff, Tooling-Zugriffe.",
+      "Standard steps for onboarding new customers: DPA, kickoff, and tooling access.",
   },
   {
     id: "doc_pending",
-    title: "NDA-Vorlage 2026.pdf",
+    title: "NDA template 2026.pdf",
     source: "upload",
     mime: "application/pdf",
     sizeBytes: 142_900,

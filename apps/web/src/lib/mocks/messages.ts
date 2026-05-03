@@ -4,7 +4,7 @@ import type { Message, Thread } from "@/types/models";
 // for stable demo recordings.
 
 export const messages: Message[] = [
-  // --- Müller GmbH thread (M365 migration enquiry) ---
+  // --- Mueller GmbH thread (M365 migration inquiry) ---
   {
     id: "msg_mueller_1",
     threadId: "thr_mueller_m365",
@@ -12,28 +12,28 @@ export const messages: Message[] = [
     direction: "inbound",
     clientId: "c_mueller",
     projectId: "p_mueller_m365",
-    subject: "Anfrage: Migration zu Microsoft 365",
-    body: `Sehr geehrte Frau Sturm,
+    subject: "Inquiry: migration to Microsoft 365",
+    body: `Dear Ms. Sturm,
 
-wir prüfen aktuell eine Migration unserer Office-Umgebung (rund 180 Arbeitsplätze) zu Microsoft 365. Insbesondere geht es uns um:
+We are currently evaluating a migration of our Office environment (around 180 workstations) to Microsoft 365. We are especially interested in:
 
-• SharePoint Online statt Fileserver
-• Teams für die Werkstatt-Standorte
-• Sicheres Mobile Device Management
+• SharePoint Online instead of file servers
+• Teams for the workshop locations
+• Secure mobile device management
 
-Können Sie uns ein erstes Gespräch und eine grobe Aufwandschätzung anbieten? Zeitlich peilen wir Q3 2026 an.
+Could you offer us an initial conversation and a rough effort estimate? We are targeting Q3 2026.
 
-Mit freundlichen Grüßen
+Best regards
 M. Heller
-IT-Leiter, Müller GmbH`,
+Head of IT, Mueller GmbH`,
     snippet:
-      "Wir prüfen aktuell eine Migration unserer Office-Umgebung (rund 180 Arbeitsplätze)…",
+      "We are evaluating a migration of our Office environment (around 180 workstations)...",
     sender: "m.heller@mueller-gmbh.de",
     recipients: ["anna@sturm-drang.de"],
     receivedAt: "2026-04-30T08:42:00+02:00",
     isRead: false,
     urgency: "high",
-    language: "de",
+    language: "en",
   },
   {
     id: "msg_mueller_2",
@@ -42,21 +42,21 @@ IT-Leiter, Müller GmbH`,
     direction: "inbound",
     clientId: "c_mueller",
     projectId: "p_mueller_m365",
-    subject: "Re: Anfrage: Migration zu Microsoft 365",
-    body: `Sehr geehrte Frau Sturm,
+    subject: "Re: Inquiry: migration to Microsoft 365",
+    body: `Dear Ms. Sturm,
 
-zur Ergänzung — falls hilfreich für die Aufwandschätzung: wir nutzen aktuell Exchange 2019 on-prem und einen klassischen Fileserver (~ 4 TB). Datenschutz ist bei uns ein wichtiges Thema (KRITIS-Lieferant).
+One addition, in case it helps with the effort estimate: we currently use Exchange 2019 on-prem and a classic file server (~4 TB). Data protection is an important topic for us because we are a critical-infrastructure supplier.
 
-Beste Grüße
+Best regards
 M. Heller`,
     snippet:
-      "Zur Ergänzung — wir nutzen aktuell Exchange 2019 on-prem und einen klassischen Fileserver (~ 4 TB).",
+      "One addition: we currently use Exchange 2019 on-prem and a classic file server (~4 TB).",
     sender: "m.heller@mueller-gmbh.de",
     recipients: ["anna@sturm-drang.de"],
     receivedAt: "2026-05-03T17:11:00+02:00",
     isRead: false,
     urgency: "high",
-    language: "de",
+    language: "en",
   },
 
   // --- Hofbauer & Partner thread (Cloud-Backup proposal) ---
@@ -67,23 +67,23 @@ M. Heller`,
     direction: "outbound",
     clientId: "c_hofbauer",
     projectId: "p_hofbauer_backup",
-    subject: "Angebot Cloud-Backup für Hofbauer & Partner",
-    body: `Sehr geehrter Herr Hofbauer,
+    subject: "Cloud backup proposal for Hofbauer & Partner",
+    body: `Dear Mr. Hofbauer,
 
-wie besprochen anbei unser Angebot für die DSGVO-konforme Cloud-Backup-Lösung. Wir haben die Variante "EU-only Hosting" zugrunde gelegt, da das in unserem Telefonat für Sie zentral war.
+As discussed, attached is our proposal for the GDPR-compliant cloud backup solution. We based it on the "EU-only hosting" option because that was central for you in our call.
 
-Gerne stelle ich Ihnen das Angebot am Montag persönlich vor.
+I would be happy to walk you through the proposal on Monday.
 
-Mit besten Grüßen
+Best regards
 Tobias Reinhardt`,
     snippet:
-      "Wie besprochen anbei unser Angebot für die DSGVO-konforme Cloud-Backup-Lösung…",
+      "As discussed, attached is our proposal for the GDPR-compliant cloud backup solution...",
     sender: "tobias@sturm-drang.de",
     recipients: ["kanzlei@hofbauer-partner.de"],
     receivedAt: "2026-04-29T14:30:00+02:00",
     isRead: true,
     urgency: "normal",
-    language: "de",
+    language: "en",
   },
   {
     id: "msg_hofbauer_2",
@@ -92,24 +92,24 @@ Tobias Reinhardt`,
     direction: "inbound",
     clientId: "c_hofbauer",
     projectId: "p_hofbauer_backup",
-    subject: "Re: Angebot Cloud-Backup für Hofbauer & Partner",
-    body: `Sehr geehrter Herr Reinhardt,
+    subject: "Re: Cloud backup proposal for Hofbauer & Partner",
+    body: `Dear Mr. Reinhardt,
 
-vielen Dank für das Angebot. Können wir den Termin am Montag um 14:00 Uhr machen? Eine kurze Frage vorab: ist der genannte Festpreis auch bei wachsendem Datenvolumen (~ 200 GB / Jahr) garantiert?
+Thank you for the proposal. Can we make the appointment Monday at 14:00? One quick question in advance: is the stated fixed price also guaranteed if our data volume grows (~200 GB/year)?
 
-Beste Grüße
+Best regards
 J. Hofbauer`,
     snippet:
-      "Können wir den Termin am Montag um 14:00 Uhr machen? Eine kurze Frage vorab…",
+      "Can we make the appointment Monday at 14:00? One quick question in advance...",
     sender: "kanzlei@hofbauer-partner.de",
     recipients: ["tobias@sturm-drang.de"],
     receivedAt: "2026-05-02T10:18:00+02:00",
     isRead: false,
     urgency: "normal",
-    language: "de",
+    language: "en",
   },
 
-  // --- Bayrische Werkzeugbau (outbound, awaiting reply) ---
+  // --- Bavarian Tooling (outbound, awaiting reply) ---
   {
     id: "msg_bayr_1",
     threadId: "thr_bayr_wartung",
@@ -117,26 +117,26 @@ J. Hofbauer`,
     direction: "outbound",
     clientId: "c_bayr",
     projectId: "p_bayr_wartung",
-    subject: "Verlängerung Wartungsvertrag — Vorschlag",
-    body: `Sehr geehrter Herr Brunner,
+    subject: "Maintenance contract renewal — proposal",
+    body: `Dear Mr. Brunner,
 
-Ihr aktueller Wartungsvertrag läuft am 30.06.2026 aus. Wir würden gerne mit Ihnen über eine Verlängerung sprechen — gerne auch zu leicht angepassten Konditionen, falls sich Ihr Bedarf geändert hat.
+Your current maintenance contract expires on 2026-06-30. We would like to discuss a renewal with you, including slightly adjusted terms if your needs have changed.
 
-Hätten Sie kommende Woche 30 Minuten für ein kurzes Gespräch?
+Would you have 30 minutes next week for a short conversation?
 
-Mit freundlichen Grüßen
+Best regards
 Tobias Reinhardt`,
     snippet:
-      "Ihr aktueller Wartungsvertrag läuft am 30.06.2026 aus. Wir würden gerne mit Ihnen…",
+      "Your current maintenance contract expires on 2026-06-30. We would like to discuss...",
     sender: "tobias@sturm-drang.de",
     recipients: ["it@bayr-werkzeug.de"],
     receivedAt: "2026-04-28T11:00:00+02:00",
     isRead: true,
     urgency: "normal",
-    language: "de",
+    language: "en",
   },
 
-  // --- KraftStrom thread (DSGVO question) ---
+  // --- KraftStrom thread (GDPR question) ---
   {
     id: "msg_kraftstrom_1",
     threadId: "thr_kraftstrom_dsgvo",
@@ -144,21 +144,21 @@ Tobias Reinhardt`,
     direction: "inbound",
     clientId: "c_kraftstrom",
     projectId: "p_kraftstrom_dsgvo",
-    subject: "Frage zur DSGVO-Compliance bei AWS",
-    body: `Hallo Anna,
+    subject: "Question about GDPR compliance on AWS",
+    body: `Hello Anna,
 
-eine kurze Frage aus unserem internen Audit: nutzen Sie bei AWS-Workloads den EU-Region-Switch automatisch oder müssen wir das pro Service einstellen? Unser Datenschutzbeauftragter braucht das bis Mittwoch.
+One quick question from our internal audit: do you use the EU region switch automatically for AWS workloads, or do we need to configure it per service? Our data protection officer needs this by Wednesday.
 
-Danke und beste Grüße
+Thanks and best regards
 A. Becker`,
     snippet:
-      "Eine kurze Frage aus unserem internen Audit: nutzen Sie bei AWS-Workloads den EU-Region-Switch…",
+      "One quick question from our internal audit: do you use the EU region switch for AWS workloads...",
     sender: "a.becker@kraftstrom.de",
     recipients: ["anna@sturm-drang.de"],
     receivedAt: "2026-05-03T15:42:00+02:00",
     isRead: false,
     urgency: "high",
-    language: "de",
+    language: "en",
   },
 
   // --- NorthCloud (English) ---
@@ -190,57 +190,57 @@ export const threads: Thread[] = [
   {
     id: "thr_mueller_m365",
     clientId: "c_mueller",
-    subject: "Anfrage: Migration zu Microsoft 365",
+    subject: "Inquiry: migration to Microsoft 365",
     lastMessageAt: "2026-05-03T17:11:00+02:00",
     messageCount: 2,
     hasUnread: true,
     urgency: "high",
     aiSummary:
-      "Müller GmbH (~180 MA, KRITIS-Lieferant) prüft M365-Migration: SharePoint statt Fileserver, Teams, MDM. Aktuell Exchange 2019 on-prem + 4 TB Fileserver. Q3 2026 Zieltermin. Erste Aufwandschätzung gefragt.",
-    detectedLanguage: "de",
-    suggestedAction: "Antwort auf M365-Anfrage entwerfen — passt zu unserer Cloud-Migration-Leistung.",
+      "Mueller GmbH (~180 employees, critical-infrastructure supplier) is evaluating an M365 migration: SharePoint instead of file server, Teams, MDM. Current setup: Exchange 2019 on-prem + 4 TB file server. Q3 2026 target. Initial effort estimate requested.",
+    detectedLanguage: "en",
+    suggestedAction: "Draft reply to M365 inquiry; it matches our cloud migration service.",
     messageIds: ["msg_mueller_1", "msg_mueller_2"],
   },
   {
     id: "thr_hofbauer_backup",
     clientId: "c_hofbauer",
-    subject: "Angebot Cloud-Backup für Hofbauer & Partner",
+    subject: "Cloud backup proposal for Hofbauer & Partner",
     lastMessageAt: "2026-05-02T10:18:00+02:00",
     messageCount: 2,
     hasUnread: true,
     urgency: "normal",
     aiSummary:
-      "Angebot wurde am 29.04. versendet. Hofbauer bestätigt Termin Montag 14:00 und stellt eine Detailfrage zu Festpreis-Garantie bei wachsendem Datenvolumen (~200 GB/Jahr).",
-    detectedLanguage: "de",
-    suggestedAction: "Bestätigung + Antwort auf Festpreis-Frage entwerfen, vor dem Termin um 14:00.",
+      "Proposal was sent on 2026-04-29. Hofbauer confirms Monday at 14:00 and asks a detailed question about the fixed-price guarantee as data volume grows (~200 GB/year).",
+    detectedLanguage: "en",
+    suggestedAction: "Draft confirmation and answer to the fixed-price question before the 14:00 meeting.",
     messageIds: ["msg_hofbauer_1", "msg_hofbauer_2"],
   },
   {
     id: "thr_bayr_wartung",
     clientId: "c_bayr",
-    subject: "Verlängerung Wartungsvertrag — Vorschlag",
+    subject: "Maintenance contract renewal — proposal",
     lastMessageAt: "2026-04-28T11:00:00+02:00",
     messageCount: 1,
     hasUnread: false,
     urgency: "normal",
     aiSummary:
-      "Wir haben am 28.04. die Verlängerung des Wartungsvertrages angeboten. Seit 6 Tagen keine Reaktion — Vertrag läuft 30.06. aus.",
-    detectedLanguage: "de",
-    suggestedAction: "Höfliche Erinnerung entwerfen (Follow-up).",
+      "We offered the maintenance contract renewal on 2026-04-28. No response for 6 days; the contract expires on 2026-06-30.",
+    detectedLanguage: "en",
+    suggestedAction: "Draft a polite reminder (follow-up).",
     messageIds: ["msg_bayr_1"],
   },
   {
     id: "thr_kraftstrom_dsgvo",
     clientId: "c_kraftstrom",
-    subject: "Frage zur DSGVO-Compliance bei AWS",
+    subject: "Question about GDPR compliance on AWS",
     lastMessageAt: "2026-05-03T15:42:00+02:00",
     messageCount: 1,
     hasUnread: true,
     urgency: "high",
     aiSummary:
-      "KraftStrom braucht bis Mittwoch eine Klarstellung zum AWS EU-Region-Setup für ihren internen Datenschutz-Audit. Unser DSGVO-Checklisten-Doc enthält die Antwort.",
-    detectedLanguage: "de",
-    suggestedAction: "Antwort entwerfen mit Verweis auf unsere DSGVO-Compliance-Checkliste.",
+      "KraftStrom needs clarification by Wednesday about AWS EU region setup for their internal data protection audit. Our GDPR checklist document contains the answer.",
+    detectedLanguage: "en",
+    suggestedAction: "Draft reply with reference to our GDPR compliance checklist.",
     messageIds: ["msg_kraftstrom_1"],
   },
   {

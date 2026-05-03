@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { LanguageProvider } from "@/lib/i18n/provider";
+import { getServerLanguage } from "@/lib/i18n/server";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,17 +20,21 @@ export const metadata: Metadata = {
     "Turn emails, meetings, and documents into priorities, drafts, and tasks. With humans in control.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const language = await getServerLanguage();
+
   return (
     <html
-      lang="en"
+      lang={language}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <LanguageProvider initialLanguage={language}>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

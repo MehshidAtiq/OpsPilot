@@ -3,7 +3,7 @@ import type { Meeting } from "@/types/models";
 export const meetings: Meeting[] = [
   {
     id: "mtg_hofbauer_today",
-    title: "Hofbauer & Partner — Angebotsbesprechung Cloud-Backup",
+    title: "Hofbauer & Partner — cloud backup proposal review",
     clientId: "c_hofbauer",
     scheduledAt: "2026-05-04T14:00:00+02:00",
     durationMin: 45,
@@ -13,7 +13,7 @@ export const meetings: Meeting[] = [
   },
   {
     id: "mtg_internal_today",
-    title: "Internes Wochen-Standup",
+    title: "Internal weekly standup",
     scheduledAt: "2026-05-04T16:30:00+02:00",
     durationMin: 30,
     attendees: ["anna@sturm-drang.de", "tobias@sturm-drang.de", "lena@sturm-drang.de"],
@@ -29,39 +29,39 @@ export const meetings: Meeting[] = [
     attendees: ["anna@sturm-drang.de", "a.becker@kraftstrom.de"],
     status: "done",
     source: "calendar_mock",
-    transcript: `Anna: Vielen Dank, dass Sie sich Zeit genommen haben. Lassen Sie uns mit dem Status quo beginnen — wo stehen Sie aktuell beim Datenschutz?
+    transcript: `Anna: Thank you for taking the time today. Let's start with the current state: where do you stand on data protection right now?
 
-A. Becker: Wir haben einen externen DSB seit 2024, AVVs mit allen Hauptdienstleistern, aber unser internes Löschkonzept ist noch in Arbeit. Genau dort brauchen wir Unterstützung.
+A. Becker: We have had an external data protection officer since 2024 and DPAs with all main providers, but our internal deletion concept is still in progress. That is exactly where we need support.
 
-Anna: Verstanden. Welche Systeme sind im Scope?
+Anna: Understood. Which systems are in scope?
 
-A. Becker: SAP, ein eigenes CRM, AWS-Workloads, plus M365. Etwa 15 Datenkategorien.
+A. Becker: SAP, our custom CRM, AWS workloads, plus M365. About 15 data categories.
 
-Anna: Ich schlage vor, wir starten mit einem zweiwöchigen Audit, danach Roadmap. Wir können bis Q3 fertig sein.
+Anna: I suggest we start with a two-week audit, then create the roadmap. We can be finished by Q3.
 
-A. Becker: Klingt gut. Können Sie uns ein Angebot bis Ende der Woche schicken?
+A. Becker: Sounds good. Can you send us a proposal by the end of the week?
 
-Anna: Ja, bis Freitag. Ich brauche von Ihrer Seite die aktuelle Datenflussübersicht und die Liste der AVVs.`,
+Anna: Yes, by Friday. From your side, I need the current data flow overview and the list of DPAs.`,
     aiSummary:
-      "Discovery Call mit KraftStrom (regionaler Energieversorger, Köln). Fokus: DSGVO-Audit für SAP, eigenes CRM, AWS-Workloads und M365. Etwa 15 Datenkategorien. Angebot bis Freitag, Audit-Start in 2 Wochen, Ziel Q3 2026.",
+      "Discovery call with KraftStrom (regional energy provider, Cologne). Focus: GDPR audit for SAP, custom CRM, AWS workloads, and M365. About 15 data categories. Proposal due Friday, audit starts in 2 weeks, target completion Q3 2026.",
     decisions: [
-      "Zweiwöchiger DSGVO-Audit als erste Phase, danach Roadmap.",
-      "Scope: SAP, eigenes CRM, AWS-Workloads, M365.",
-      "Angebot von uns bis Freitag, 09.05.2026.",
+      "Two-week GDPR audit as the first phase, followed by roadmap.",
+      "Scope: SAP, custom CRM, AWS workloads, M365.",
+      "Proposal from us by Friday, 2026-05-09.",
     ],
     actionItems: [
       {
-        text: "Angebot DSGVO-Audit für KraftStrom erstellen",
+        text: "Create GDPR audit proposal for KraftStrom",
         ownerId: "u_anna",
         dueDate: "2026-05-09",
       },
       {
-        text: "Datenflussübersicht und AVV-Liste von KraftStrom anfragen",
+        text: "Request data flow overview and DPA list from KraftStrom",
         ownerId: "u_lena",
         dueDate: "2026-05-06",
       },
       {
-        text: "Audit-Slot für Mai/Juni in Tobias' Kalender blocken",
+        text: "Block audit slot for May/June in Tobias' calendar",
         ownerId: "u_tobias",
         dueDate: "2026-05-05",
       },

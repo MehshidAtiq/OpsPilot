@@ -44,7 +44,9 @@ German IT/consulting SMEs (5–50 people) lose hours every week to email triage,
 
 ## Status
 
-Phase 0 — planning. See [PLAN.md](./PLAN.md) for full product, architecture, and roadmap.
+Phase 2 — backend and database foundation in progress. The frontend mock demo
+still works by default; set `NEXT_PUBLIC_DATA_SOURCE=api` to exercise the
+Phase 2 API-backed auth, onboarding, documents, and task flows.
 
 ## Repo layout (target)
 
@@ -59,6 +61,19 @@ opspilot/
 │  ├─ docker/
 │  └─ migrations/
 └─ docs/
+```
+
+## Phase 2 local API
+
+```bash
+docker compose -f infra/docker/docker-compose.phase2.yml up -d db redis minio
+
+cd apps/api
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+alembic upgrade head
+uvicorn opspilot.main:app --reload --host localhost --port 8000
 ```
 
 ## License

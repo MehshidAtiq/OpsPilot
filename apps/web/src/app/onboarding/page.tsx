@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ShieldCheck,
   ArrowRight,
@@ -14,6 +14,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { USE_API_DATA } from "@/lib/api/config";
+import { submitOnboarding } from "@/lib/api/onboarding";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
@@ -24,8 +26,42 @@ const STEPS = [
 ] as const;
 
 export default function OnboardingPage() {
+  const router = useRouter();
   const [stepIdx, setStepIdx] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const step = STEPS[stepIdx].key;
+
+  async function finishOnboarding() {
+    if (!USE_API_DATA) {
+      router.push("/dashboard");
+      return;
+    }
+    setSaving(true);
+    setError(null);
+    try {
+      await submitOnboarding({
+        company_name: "Sturm & Drang Consulting GmbH",
+        industry: "IT consulting",
+        services: [
+          "Cloud migration",
+          "Microsoft 365 & SharePoint",
+          "IT infrastructure",
+          "GDPR compliance audits",
+        ],
+        target_clients: "Mid-sized companies, 50-500 employees, DACH",
+        primary_language: "en",
+        default_formality: "sie",
+        tone_summary: "Polite, factual, no marketing fluff.",
+      });
+      router.push("/dashboard");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save onboarding");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-muted/30 flex flex-col">
@@ -80,6 +116,12 @@ export default function OnboardingPage() {
             {step === "skills" && <SkillsStep />}
             {step === "done" && <DoneStep />}
 
+            {error && (
+              <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                {error}
+              </div>
+            )}
+
             <div className="flex items-center justify-between border-t border-border pt-4">
               <Button
                 variant="ghost"
@@ -96,9 +138,9 @@ export default function OnboardingPage() {
                   Weiter <ArrowRight className="h-4 w-4" />
                 </Button>
               ) : (
-                <Link href="/dashboard">
-                  <Button variant="primary">Zum Dashboard</Button>
-                </Link>
+                <Button variant="primary" onClick={finishOnboarding} disabled={saving}>
+                  {saving ? "Saving..." : "Zum Dashboard"}
+                </Button>
               )}
             </div>
           </CardContent>

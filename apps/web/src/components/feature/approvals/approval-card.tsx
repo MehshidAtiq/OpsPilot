@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { SourceChip } from "@/components/ui/source-chip";
+import { useI18n } from "@/lib/i18n/provider";
+import type { TranslationKey } from "@/lib/i18n/translations";
 import type {
   Approval,
   CalendarPayload,
@@ -36,12 +38,12 @@ const ACTION_ICONS = {
   calendar_create: CalendarPlus,
 };
 
-const ACTION_LABELS = {
-  email_send: "E-Mail",
-  follow_up_send: "Follow-up",
-  task_create: "Aufgabe",
-  doc_update: "Dokument",
-  calendar_create: "Termin",
+const ACTION_LABELS: Record<Approval["actionType"], TranslationKey> = {
+  email_send: "approval.action.email_send",
+  follow_up_send: "approval.action.follow_up_send",
+  task_create: "approval.action.task_create",
+  doc_update: "approval.action.doc_update",
+  calendar_create: "approval.action.calendar_create",
 };
 
 type Decision = "approved" | "edited" | "rejected" | null;
@@ -53,6 +55,7 @@ export function ApprovalCard({
   approval: Approval;
   defaultExpanded?: boolean;
 }) {
+  const { locale, t } = useI18n();
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [decision, setDecision] = useState<Decision>(null);
   const [editing, setEditing] = useState(false);
@@ -63,7 +66,7 @@ export function ApprovalCard({
       <DecidedBanner
         title={approval.title}
         verdict="approved"
-        sub="Versendet (Mock) · Audit-Log aktualisiert"
+        sub={t("approval.approvedSub")}
       />
     );
   }
@@ -72,7 +75,7 @@ export function ApprovalCard({
       <DecidedBanner
         title={approval.title}
         verdict="edited"
-        sub="Bearbeitet + freigegeben · Versendet (Mock)"
+        sub={t("approval.editedSub")}
       />
     );
   }
@@ -81,7 +84,7 @@ export function ApprovalCard({
       <DecidedBanner
         title={approval.title}
         verdict="rejected"
-        sub="Abgelehnt · Wird nicht versendet"
+        sub={t("approval.rejectedSub")}
       />
     );
   }
@@ -103,7 +106,9 @@ export function ApprovalCard({
               <h3 className="text-sm font-semibold leading-tight truncate">
                 {approval.title}
               </h3>
-              <Badge variant="primary">{ACTION_LABELS[approval.actionType]}</Badge>
+              <Badge variant="primary">
+                {t(ACTION_LABELS[approval.actionType])}
+              </Badge>
               <Badge variant="outline">via {approval.skillKey}</Badge>
             </div>
             <p className="text-xs text-muted-foreground">
@@ -118,7 +123,7 @@ export function ApprovalCard({
           </div>
         </div>
         <span className="text-[10px] text-muted-foreground shrink-0">
-          {relativeTime(approval.createdAt)}
+          {relativeTime(approval.createdAt, locale)}
         </span>
       </CardHeader>
 
@@ -134,13 +139,14 @@ export function ApprovalCard({
             payload={approval.payload as EmailPayload}
             editing={editing}
             collapsed={!expanded}
+            t={t}
           />
         ) : approval.actionType === "task_create" ? (
-          <TaskPayloadView payload={approval.payload as TaskPayload} />
+          <TaskPayloadView payload={approval.payload as TaskPayload} t={t} />
         ) : approval.actionType === "calendar_create" ? (
-          <CalendarPayloadView payload={approval.payload as CalendarPayload} />
+          <CalendarPayloadView payload={approval.payload as CalendarPayload} t={t} />
         ) : (
-          <DocPayloadView payload={approval.payload as DocPayload} />
+          <DocPayloadView payload={approval.payload as DocPayload} t={t} />
         )}
 
         {(approval.actionType === "email_send" ||
@@ -150,7 +156,7 @@ export function ApprovalCard({
             className="mt-3 text-[11px] font-medium text-primary hover:underline"
             onClick={() => setExpanded((e) => !e)}
           >
-            {expanded ? "Einklappen" : "Vollständigen Entwurf anzeigen"}
+            {expanded ? t("approval.collapse") : t("approval.showFullDraft")}
           </button>
         )}
       </CardContent>
@@ -163,7 +169,7 @@ export function ApprovalCard({
             onClick={() => setDecision(editing ? "edited" : "approved")}
           >
             <CheckCircle2 className="h-4 w-4" />
-            {editing ? "Bearbeitet & freigeben" : "Freigeben"}
+            {editing ? t("approval.approveEdited") : t("approval.approve")}
           </Button>
           {!editing && (
             <Button
@@ -175,17 +181,17 @@ export function ApprovalCard({
               }}
             >
               <Pencil className="h-4 w-4" />
-              Bearbeiten
+              {t("approval.edit")}
             </Button>
           )}
           <Button variant="ghost" size="sm" onClick={() => setDecision("rejected")}>
             <X className="h-4 w-4" />
-            Ablehnen
+            {t("approval.reject")}
           </Button>
         </div>
         <Button variant="ghost" size="sm">
           <RefreshCw className="h-4 w-4" />
-          Neu generieren
+          {t("approval.regenerate")}
         </Button>
       </CardFooter>
     </Card>
@@ -196,29 +202,37 @@ function EmailPayloadView({
   payload,
   editing,
   collapsed,
+  t,
 }: {
   payload: EmailPayload;
   editing: boolean;
   collapsed: boolean;
+  t: (key: TranslationKey) => string;
 }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-[80px_1fr] gap-x-3 gap-y-1 text-xs">
-        <span className="text-muted-foreground">An</span>
+        <span className="text-muted-foreground">{t("approval.field.to")}</span>
         <span className="font-medium">{payload.to.join(", ")}</span>
-        <span className="text-muted-foreground">Betreff</span>
+        <span className="text-muted-foreground">
+          {t("approval.field.subject")}
+        </span>
         {editing ? (
           <Input defaultValue={payload.subject} className="h-7 text-xs" />
         ) : (
           <span className="font-medium">{payload.subject}</span>
         )}
-        <span className="text-muted-foreground">Sprache</span>
+        <span className="text-muted-foreground">
+          {t("approval.field.language")}
+        </span>
         <span className="flex items-center gap-1.5">
           <Badge variant="neutral">
-            {payload.language === "de" ? "Deutsch" : "English"}
+            {payload.language === "de" ? t("common.german") : t("common.english")}
           </Badge>
           <Badge variant="neutral">
-            {payload.formality === "sie" ? "Sie · formal" : "Du · informal"}
+            {payload.formality === "sie"
+              ? t("approval.formality.formal")
+              : t("approval.formality.informal")}
           </Badge>
         </span>
       </div>
@@ -244,22 +258,36 @@ function EmailPayloadView({
   );
 }
 
-function TaskPayloadView({ payload }: { payload: TaskPayload }) {
+function TaskPayloadView({
+  payload,
+  t,
+}: {
+  payload: TaskPayload;
+  t: (key: TranslationKey) => string;
+}) {
   return (
     <div className="grid grid-cols-[100px_1fr] gap-x-3 gap-y-1 text-xs">
-      <span className="text-muted-foreground">Titel</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.title")}
+      </span>
       <span className="font-medium">{payload.title}</span>
       {payload.description && (
         <>
-          <span className="text-muted-foreground">Beschreibung</span>
+          <span className="text-muted-foreground">
+            {t("approval.field.description")}
+          </span>
           <span>{payload.description}</span>
         </>
       )}
-      <span className="text-muted-foreground">Owner</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.owner")}
+      </span>
       <span>{payload.ownerName ?? "—"}</span>
-      <span className="text-muted-foreground">Fällig</span>
+      <span className="text-muted-foreground">{t("approval.field.due")}</span>
       <span>{payload.dueDate ?? "—"}</span>
-      <span className="text-muted-foreground">Priorität</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.priority")}
+      </span>
       <span>
         <Badge
           variant={
@@ -277,29 +305,55 @@ function TaskPayloadView({ payload }: { payload: TaskPayload }) {
   );
 }
 
-function CalendarPayloadView({ payload }: { payload: CalendarPayload }) {
+function CalendarPayloadView({
+  payload,
+  t,
+}: {
+  payload: CalendarPayload;
+  t: (key: TranslationKey) => string;
+}) {
   return (
     <div className="grid grid-cols-[100px_1fr] gap-x-3 gap-y-1 text-xs">
-      <span className="text-muted-foreground">Titel</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.title")}
+      </span>
       <span className="font-medium">{payload.title}</span>
-      <span className="text-muted-foreground">Start</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.start")}
+      </span>
       <span>{payload.startsAt}</span>
-      <span className="text-muted-foreground">Dauer</span>
-      <span>{payload.durationMin} Min.</span>
-      <span className="text-muted-foreground">Teilnehmer</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.duration")}
+      </span>
+      <span>{payload.durationMin} min</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.participants")}
+      </span>
       <span>{payload.attendees.join(", ")}</span>
-      <span className="text-muted-foreground">Agenda</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.agenda")}
+      </span>
       <span className="whitespace-pre-wrap">{payload.agenda}</span>
     </div>
   );
 }
 
-function DocPayloadView({ payload }: { payload: DocPayload }) {
+function DocPayloadView({
+  payload,
+  t,
+}: {
+  payload: DocPayload;
+  t: (key: TranslationKey) => string;
+}) {
   return (
     <div className="grid grid-cols-[100px_1fr] gap-x-3 gap-y-1 text-xs">
-      <span className="text-muted-foreground">Dokument</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.document")}
+      </span>
       <span className="font-medium">{payload.documentTitle}</span>
-      <span className="text-muted-foreground">Änderung</span>
+      <span className="text-muted-foreground">
+        {t("approval.field.change")}
+      </span>
       <span>{payload.diffSummary}</span>
     </div>
   );
@@ -314,26 +368,27 @@ function DecidedBanner({
   verdict: "approved" | "edited" | "rejected";
   sub: string;
 }) {
+  const { t } = useI18n();
   const config = {
     approved: {
       bg: "bg-green-50",
       ring: "ring-green-200",
       text: "text-green-800",
-      label: "Freigegeben",
+      label: t("approval.verdict.approved"),
       Icon: CheckCircle2,
     },
     edited: {
       bg: "bg-blue-50",
       ring: "ring-blue-200",
       text: "text-blue-800",
-      label: "Bearbeitet & freigegeben",
+      label: t("approval.verdict.edited"),
       Icon: Pencil,
     },
     rejected: {
       bg: "bg-slate-50",
       ring: "ring-slate-200",
       text: "text-slate-700",
-      label: "Abgelehnt",
+      label: t("approval.verdict.rejected"),
       Icon: X,
     },
   }[verdict];

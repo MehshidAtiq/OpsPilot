@@ -5,10 +5,10 @@ export const skills: Skill[] = [
     key: "daily_briefing",
     name: "Daily briefing",
     description:
-      "Sammelt Termine, dringende Threads und offene Aufgaben des Tages. Bewertet drei Top-Prioritäten mit Begründung.",
+      "Collects the day's meetings, urgent threads, and open tasks. Ranks the top three priorities with rationale.",
     trigger: "Cron 07:00 + on-demand",
     inputs: [
-      { name: "user_id", type: "ID", description: "Wer bekommt das Briefing" },
+      { name: "user_id", type: "ID", description: "Who receives the briefing" },
       { name: "date", type: "ISO date" },
     ],
     output: [
@@ -26,8 +26,8 @@ export const skills: Skill[] = [
     key: "email_reply",
     name: "Email reply",
     description:
-      "Schreibt einen Antwortentwurf in der erkannten Sprache und Formalität. Nutzt RAG über Knowledge Base + Threadverlauf.",
-    trigger: "User-Klick «Antwort entwerfen»",
+      "Writes a reply draft in the detected language and formality. Uses RAG over the knowledge base and thread history.",
+    trigger: "User clicks \"Draft reply\"",
     inputs: [
       { name: "message_id", type: "ID" },
       { name: "tone_override", type: "string?", description: "Optional" },
@@ -45,8 +45,8 @@ export const skills: Skill[] = [
     key: "meeting_summary",
     name: "Meeting summary",
     description:
-      "Extrahiert Zusammenfassung, Entscheidungen, Action Items. Schlägt Follow-up-Mail und Aufgaben vor.",
-    trigger: "User reicht Transkript ein",
+      "Extracts summary, decisions, and action items. Suggests a follow-up email and tasks.",
+    trigger: "User submits transcript",
     inputs: [
       { name: "meeting_id", type: "ID" },
       { name: "transcript", type: "string" },
@@ -66,8 +66,8 @@ export const skills: Skill[] = [
     key: "task_extraction",
     name: "Task extraction",
     description:
-      "Wandelt freien Text (E-Mail, Meetingnotiz) in strukturierte Aufgaben. Wird intern von anderen Skills aufgerufen.",
-    trigger: "Intern (von anderen Skills)",
+      "Turns free text (email or meeting note) into structured tasks. Called internally by other skills.",
+    trigger: "Internal (from other skills)",
     inputs: [
       { name: "text", type: "string" },
       { name: "context", type: "string" },
@@ -82,7 +82,7 @@ export const skills: Skill[] = [
     key: "follow_up_detector",
     name: "Follow-up detector",
     description:
-      "Findet ausgehende Threads ohne Antwort (> N Tage), Angebote ohne Reaktion, fehlende Meeting-Follow-ups. Entwirft Erinnerung.",
+      "Finds outbound threads without a response (> N days), proposals with no reaction, and missing meeting follow-ups. Drafts a reminder.",
     trigger: "Cron 08:00",
     inputs: [
       { name: "company_id", type: "ID" },
@@ -98,7 +98,7 @@ export const skills: Skill[] = [
     key: "proposal_draft",
     name: "Proposal draft",
     description:
-      "Erstellt Angebotsentwurf aus Discovery-Call-Notizen + Service-KB. Phasen, Aufwand, Preis-Bandbreite.",
+      "Creates a proposal draft from discovery call notes and the service knowledge base. Includes phases, effort, and price range.",
     trigger: "—",
     inputs: [
       { name: "client_id", type: "ID" },
@@ -114,7 +114,7 @@ export const skills: Skill[] = [
     key: "weekly_report",
     name: "Weekly report",
     description:
-      "Wochenrückblick: Was lief, was offen ist, Forecast. Pro Person + Aggregat.",
+      "Weekly review: what happened, what is open, and forecast. Per person and aggregate.",
     trigger: "—",
     inputs: [{ name: "week_iso", type: "string" }],
     output: [{ name: "report", type: "DocPayload" }],
@@ -127,7 +127,7 @@ export const skills: Skill[] = [
     key: "meeting_scheduler",
     name: "Meeting scheduler",
     description:
-      "Schlägt Slots vor, entwirft Termin-Mail, erstellt Kalender-Event-Vorschlag.",
+      "Suggests time slots, drafts the scheduling email, and creates a calendar event proposal.",
     trigger: "—",
     inputs: [
       { name: "attendees", type: "string[]" },
