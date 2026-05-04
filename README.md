@@ -4,7 +4,7 @@
 
 OpsPilot turns emails, meetings, documents, and client follow-ups into daily priorities, drafts, tasks, and scheduled actions — while keeping humans in control.
 
-> Portfolio / demo project for konaktiva and job applications. Built to demonstrate AI workflow design, backend architecture, GDPR/privacy awareness, and product thinking — not a toy chatbot.
+>  Built to demonstrate AI workflow design, backend architecture, GDPR/privacy awareness, and product thinking — not a toy chatbot.
 
 ---
 
@@ -45,8 +45,7 @@ German IT/consulting SMEs (5–50 people) lose hours every week to email triage,
 ## Status
 
 Phase 2 — backend and database foundation in progress. The frontend uses the
-Phase 2 API-backed auth, onboarding, documents, and task flows by default. Set
-`NEXT_PUBLIC_DATA_SOURCE=mock` only when you want the old frontend-only demo.
+Phase 2 API-backed auth, onboarding, documents, and task flows by default. 
 
 ## Repo layout (target)
 
